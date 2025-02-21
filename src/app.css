@@ -1,11 +1,5 @@
 @import 'tailwindcss';
 
-@theme {
-  --color-midnight: #181818;
-  --color-lightGrey: #282828;
-  --color-darkGrey: #101010;
-}
-
 .input-gradient {
   position: relative;
   
