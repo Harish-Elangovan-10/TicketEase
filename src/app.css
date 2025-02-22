@@ -32,15 +32,26 @@
       transform: translateY(-20px);
   }
 }
+
 .dot {
   animation: bounce 1s infinite;
 }
+
 .dot:nth-child(1) {
   animation-delay: 0s;
 }
+
 .dot:nth-child(2) {
   animation-delay: 0.2s;
 }
+
 .dot:nth-child(3) {
   animation-delay: 0.4s;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  content: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM5OWExYWYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1jYWxlbmRhci1mb2xkIj48cGF0aCBkPSJNOCAydjQiLz48cGF0aCBkPSJNMTYgMnY0Ii8+PHBhdGggZD0iTTIxIDE3VjZhMiAyIDAgMCAwLTItMkg1YTIgMiAwIDAgMC0yIDJ2MTRhMiAyIDAgMCAwIDIgMmgxMVoiLz48cGF0aCBkPSJNMyAxMGgxOCIvPjxwYXRoIGQ9Ik0xNSAyMnYtNGEyIDIgMCAwIDEgMi0yaDQiLz48L3N2Zz4=');
+  width: 1.5em;
+  height: 1.5em;
+  cursor: pointer;
 }
