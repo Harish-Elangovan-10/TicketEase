@@ -1,8 +1,7 @@
 @import 'tailwindcss';
 
 .input-gradient {
-  position: relative;
-  
+  position: relative;  
 }
 
 .input-gradient::before {

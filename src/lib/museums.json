@@ -1,0 +1,98 @@
+[
+    {
+        "title": "National Museum",
+        "state": "Delhi",
+        "location": "New Delhi",
+        "image": "https://delhitourism.travel/images/places-to-visit/headers/national-museum-of-india-delhi-tourism-entry-fee-timings-holidays-reviews-header.jpg",
+        "price": "₹150",
+        "description": "Home to over 200,000 artifacts representing 5,000 years of Indian cultural heritage"
+    },
+    {
+        "title": "Chhatrapati Shivaji Museum",
+        "state": "Maharashtra",
+        "location": "Mumbai",
+        "image": "https://s7ap1.scene7.com/is/image/incredibleindia/chhatrapati-shivaji-maharaj-museum-chhatrapati-sambhaji-nagar-maharashtra-2-attr-hero?qlt=82&ts=1727010486571",
+        "price": "₹200",
+        "description": "Indo-Saracenic architecture housing extensive collection of Indian history"
+    },
+    {
+        "title": "Indian Museum",
+        "state": "West Bengal",
+        "location": "Kolkata",
+        "image": "https://resize.indiatvnews.com/en/resize/newbucket/715_-/2020/03/2018-06-22-1584239865.jpg",
+        "price": "₹125",
+        "description": "The largest and oldest museum in India, founded in 1814"
+    },
+    {
+        "title": "Salar Jung Museum",
+        "state": "Telangana",
+        "location": "Hyderabad",
+        "image": "https://s7ap1.scene7.com/is/image/incredibleindia/salar-jung-museum-hyderabad-secunderabad-telangana-14-musthead-hero?qlt=82&ts=1726653045999",
+        "price": "₹250",
+        "description": "One of the three National Museums housing with largest one-man collection"
+    },
+    {
+        "title": "Government Museum",
+        "state": "Tamil Nadu",
+        "location": "Chennai",
+        "image": "https://th-i.thgim.com/public/incoming/1w2cnw/article67994130.ece/alternates/LANDSCAPE_1200/Museum_Theatre1.JPG",
+        "price": "₹200",
+        "description": "Second oldest museum in India with rare bronze and stone sculptures"
+    },
+    {
+        "title": "Albert Hall Museum",
+        "state": "Rajasthan",
+        "location": "Jaipur",
+        "image": "https://content-tourist.rajasthan.gov.in/uploads/albert_hall_museum_jaipur_entry_fee_timings_holidays_reviews_header_219f4b832f.jpg",
+        "price": "₹100",
+        "description": "Oldest museum in Rajasthan showcasing royal heritage and artifacts"
+    },
+    {
+        "title": "Calicut Art Gallery",
+        "state": "Kerala",
+        "location": "Kozhikode",
+        "image": "https://yometro.com/images/places/pazhassi-raja-museum-art-gallery.jpg",
+        "price": "₹125",
+        "description": "Showcasing Kerala's rich artistic heritage and contemporary works"
+    },
+    {
+        "title": "State Museum",
+        "state": "Uttar Pradesh",
+        "location": "Lucknow",
+        "image": "https://static.toiimg.com/photo/47958891.cms",
+        "price": "₹135",
+        "description": "Houses rare collections of ancient sculptures, coins, and manuscripts"
+    },
+    {
+        "title": "Patna Museum",
+        "state": "Bihar",
+        "location": "Patna",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/2/21/Patna_Museum_-_General_View_%289221515542%29.jpg",
+        "price": "₹130",
+        "description": "Notable for its collection of archaeological artifacts and Buddhist sculptures"
+    },
+    {
+        "title": "State Archaeological Museum",
+        "state": "Madhya Pradesh",
+        "location": "Bhopal",
+        "image": "https://www.hoteldekho.com/storage/img/tourattraction/1646726502Museums-of-Bhopal-.jpg",
+        "price": "₹145",
+        "description": "Features prehistoric tools, temple sculptures, and tribal artifacts"
+    },
+    {
+        "title": "Archaeological Museum",
+        "state": "Goa",
+        "location": "Panaji",
+        "image": "https://goa-tourism.org.in/images/places-to-visit/headers/archives-museum-goa-header-goa-tourism.jpg.jpg",
+        "price": "₹135",
+        "description": "Preserves Portuguese colonial and pre-colonial artifacts of Goan history"
+    },
+    {
+        "title": "Calico Museum of Textiles",
+        "state": "Gujarat",
+        "location": "Ahmedabad",
+        "image": "https://ahmedabadtourism.in/images/tourist-places/calico-museum-of-textiles-ahmedabad/calico-museum-of-textiles-ahmedabad-tourism-entry-fee.jpg",
+        "price": "₹140",
+        "description": "World-renowned museum showcasing India's rich textile heritage"
+    }
+]

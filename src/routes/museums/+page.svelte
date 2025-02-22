@@ -1,49 +1,47 @@
 <script lang="ts">
+    import { MapPin, Search } from "lucide-svelte";
+    import { onMount } from "svelte";
     import { user } from "$lib/auth";
+    import museums from "$lib/museums.json";
     import LoadingAnimation from "$lib/loadingAnimation.svelte";
     import { isPageLoading, stopLoading } from "$lib/pageLoading";
-    import { handleMuseums, handleSignIn, handleSignUp, handleSignOut } from "$lib/handleRouting";
-    import { Building2, Globe, Users, MapPin } from "lucide-svelte";
-    import { onMount } from "svelte";
-    import museums from "$lib/museums.json";
+    import { handleHome, handleSignIn, handleSignOut, handleSignUp } from "$lib/handleRouting";
 
     onMount(() => {
         stopLoading();
     });
 
-    const getUserName = (name: string) => {
-        const names = name.trim().split(/\s+/);
-        if(names.length === 1) {
-            return { firstname: names[0], lastname: ""};
-        }
+    let searchQuery = "";
+    let selectedState = "all";
 
-        const firstname = names.slice(0, -1).join(" ");
-        const lastname = names[names.length - 1];
-
-        return { firstname, lastname };
-    };
+    $: states = [...new Set(museums.map(museum => museum.state))].sort();
+    $: sortedMuseums = museums.filter(museum => {
+        const matchesSearch = museum.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                            museum.location.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                            museum.state.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesState = selectedState === "all" || museum.state === selectedState;
+        
+        return matchesSearch && matchesState;
+    });
 </script>
 
-<div class="min-h-screen bg-gradient-to-br from-gray-900 to-black text-gray-400">    
+<div class="min-h-screen bg-gradient-to-br from-gray-900 to-black text-gray-400">
     {#if $isPageLoading}
         <div class="absolute flex items-center justify-center w-full h-screen bg-black/75 backdrop-blur-sm">
             <LoadingAnimation />
         </div>
     {/if}
     <div class="mx-12 pt-8">
-        <nav class="flex justify-between items-center">
+        <nav class="flex justify-between items-center mb-20">
             <div class="text-2xl font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
                 MuseumPass
             </div>
             <div class="flex space-x-8">
                 <button class="hover:text-white/90 transition-colors duration-200"
-                onclick={() => window.location.href = "/booknow"}>
-                    Book Now
+                onclick={handleHome}>
+                    Home
                 </button>
-                <button 
-                    onclick={handleMuseums}
-                    class="hover:text-white/90 transition-colors duration-200"
-                >
+                <button class="text-white/90 transition-colors duration-200">
                     Museums
                 </button>
                 <button class="hover:text-white/90 transition-colors duration-200">
@@ -80,44 +78,39 @@
             </div>
         </nav>
 
-        <div class="flex flex-col items-center text-center pt-16 pb-10 px-10 space-y-5">
-            <h1 class="h-20 text-6xl font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
-                Discover India's Heritage
-            </h1>
-            <p class="text-xl text-gray-400 max-w-2xl mb-10">
-                Your digital gateway to India's most prestigious museums. Experience the rich cultural heritage and artistic treasures across different states.
-            </p>
-            <div class="flex gap-10 text-gray-400">
-                <div class="flex items-center gap-3">
-                    <Globe class="h-5 w-5 text-emerald-500" />
-                    <span>28+ States</span>
-                </div>
-                <div class="flex items-center gap-3">
-                    <Building2 class="h-5 w-5 text-emerald-500" />
-                    <span>100+ Museums</span>
-                </div>
-                <div class="flex items-center gap-3">
-                    <Users class="h-5 w-5 text-emerald-500" />
-                    <span>500K+ Visitors</span>
-                </div>
-            </div>
-        </div>
-
         <div class="pb-12">
-            <div class="flex items-center justify-between mb-10 mr-5">
+            <div class="flex flex-col md:flex-row items-center justify-between mb-16 gap-5">
                 <h1 class="text-3xl font-bold text-white/90">
-                    Featured Museums
+                    All Museums
                 </h1>
-                <button 
-                    class="px-4 py-2 rounded-lg border-[1.5px] border-gray-400 hover:bg-white hover:text-black 
-                    focus:bg-white/75 focus:text-black transition-all duration-200"
-                    onclick={handleMuseums}
-                >
-                    View All Museums
-                </button>
+                <div class="flex w-full gap-5 md:w-auto">
+                    <div class="{ $isPageLoading ? '' : 'relative' } flex-1 md:flex-none">
+                        <Search class="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5" />
+                        <input
+                            type="text"
+                            bind:value={searchQuery}
+                            placeholder="Search museums..."
+                            class="w-full md:w-64 pl-12 pr-4 py-2.5 rounded-lg bg-gray-950 border-[2px] border-gray-800 
+                            hover:border-lime-600 focus:border-emerald-500 focus:outline-none text-white/90 placeholder-gray-400"
+                        />
+                    </div>
+                    <div 
+                        class="pr-3 pt-0.5 rounded-lg bg-gray-950 border-[2px] border-gray-800 
+                            hover:border-lime-600 focus:border-emerald-500"
+                    >
+                        <select bind:value={selectedState} class="pl-4 py-2 outline-none bg-gray-950 text-gray-400">
+                            <option value="all">All States</option>
+                            {#each states as state}
+                                <option value={state}>
+                                    {state}
+                                </option>
+                            {/each}
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
-                {#each museums.slice(0, 8) as museum}
+                {#each sortedMuseums as museum}
                     <div class="bg-gradient-to-br from-gray-900 to-black rounded-xl border-[1.5px] border-gray-800">
                         <div class="h-48">
                             <img 
@@ -158,9 +151,10 @@
                 {/each}
             </div>
         </div>
+
     </div>
 </div>
 
 <svelte:head>
-    <title>Home Page</title>
+    <title>Museums</title>
 </svelte:head>
