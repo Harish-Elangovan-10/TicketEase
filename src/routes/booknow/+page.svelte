@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { CalendarDays, Ticket, Users } from "lucide-svelte";
+	import { CalendarDays, Ticket, Users, Banknote } from "lucide-svelte";
 
 	let selectedDate = new Date().toISOString().split("T")[0];
 	let selectedTicket: { name: string; description: string; price: number; } | null = null;
 	let selectedTime = "";
+	let selectedPayment = "";
 	let visitors = 1;
 
 	const tickets = [
@@ -34,8 +35,31 @@
 		"04:00 PM",
   	];
 
+	const paymentMethods = [
+		{
+			type: "Credit Card",
+			image: "./src/assets/mastercard.jpg",
+		},
+		{
+			type: "Debit Card",
+			image: "./src/assets/visa.jpg",
+		},
+		{
+			type: "Net Banking",
+			image: "./src/assets/netbanking.jpg",
+		},
+		{
+			type: "Google Pay",
+			image: "./src/assets/gpay.jpg",
+		},
+	];
+
 	const selectTicket = (ticket: any) => {
 		selectedTicket = ticket;
+	};
+
+	const selectPayment = (payment: string) => {
+		selectedPayment = payment;
 	};
 
 	const setTime = (time: string) => {
@@ -71,10 +95,9 @@
 
 		<div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
 			<div class="lg:col-span-2 space-y-7">
-
 				<div class="bg-gradient-to-br from-gray-900 to-black rounded-xl p-8 border-[1.5px] border-gray-800">
 					<div class="flex items-center gap-5 mb-7">
-						<Ticket class="h-9 w-9 text-white/90" />
+						<Ticket class="h-8 w-8 text-white/90" />
 						<h2 class="text-2xl font-semibold text-white/90">
 							Select Ticket Category
 						</h2>
@@ -82,7 +105,7 @@
 
 					<div class="space-y-5">
 						{#each tickets as ticket}
-							<button class="w-full rounded-xl bg-gradient-to-br p-[2px] transition-all duration-200 
+							<button class="w-full rounded-xl bg-gradient-to-r p-[2px] transition-all duration-200 
 							{selectedTicket === ticket ? 'from-lime-500 to-emerald-500' : 'from-gray-800 to-gray-800 hover:from-lime-700 hover:to-emerald-700'}"
 							onclick={() => selectTicket(ticket)}>
 								<div class="p-8 rounded-xl bg-gradient-to-br {selectedTicket === ticket ? "from-gray-900 to-black" : "from-gray-900 to-gray-950"} 
@@ -111,7 +134,7 @@
 
 				<div class="bg-gradient-to-br from-gray-900 to-black rounded-xl p-8 border-[1.5px] border-gray-800">
 					<div class="flex items-center gap-5 mb-7">
-						<CalendarDays class="h-8 w-8 text-white/90" />
+						<CalendarDays class="h-7 w-7 text-white/90" />
 						<h2 class="text-2xl font-semibold text-white/90">
 							Select Date & Time
 						</h2>
@@ -143,13 +166,13 @@
 
 				<div class="bg-gradient-to-br from-gray-900 to-black rounded-xl p-8 border-[1.5px] border-gray-800">
 					<div class="flex items-center gap-5 mb-7">	
-						<Users class="h-8 w-8 text-white/90" />
+						<Users class="h-7 w-7 text-white/90" />
 						<h2 class="text-2xl font-semibold text-white/90">
 							Number of Visitors
 						</h2>
 					</div>
 
-					<div class="flex items-center justify-start gap-10 mt-10">
+					<div class="flex items-center justify-start gap-10">
 						<button
                 			class="h-12 w-12 text-xl rounded-full transition-all duration-200 border-[1.5px] border-gray-800
                        		bg-gradient-to-br from-gray-900 to-gray-950 hover:from-gray-800 hover:to-gray-900 font-bold pb-1"
@@ -171,6 +194,31 @@
               			</button>
 					</div>
 				</div>
+
+				<div class="bg-gradient-to-br from-gray-900 to-black rounded-xl p-8 border-[1.5px] border-gray-800">
+					<div class="flex items-center gap-5 mb-7">	
+						<Banknote class="h-8 w-8 text-white/90" />
+						<h2 class="text-2xl font-semibold text-white/90">
+							Payment Method
+						</h2>
+					</div>
+					<div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+						{#each paymentMethods as payment}
+							<button 
+								class="w-full rounded-xl bg-gradient-to-r p-[2px] transition-all duration-200 
+								{selectedPayment === payment.type ? 'from-lime-500 to-emerald-500' : 'from-gray-800 to-gray-800 hover:from-lime-700 hover:to-emerald-700'}"
+								onclick={() => selectPayment(payment.type)}
+							>
+								<div class="flex items-center gap-3 px-3 py-3 rounded-xl bg-gradient-to-br {selectedPayment === payment.type ? "from-gray-900 to-black" : "from-gray-900 to-gray-950"} 
+									hover:from-gray-900 hover:to-black transition-all duration-200"
+								>
+									<img src={payment.image} alt={payment.type} class="h-12 w-16 rounded-lg" />
+									<p>{payment.type}</p>
+								</div>
+							</button>
+						{/each}
+					</div>
+				</div>
 			</div>
 
 			<div class="lg:col-span-1">
@@ -178,25 +226,29 @@
 					<h2 class="text-2xl font-semibold text-white/90 mb-6">
 						Order Summary
 					</h2>
-					<div class="space-y-6">
+					<div class="space-y-5">
 						<div class="flex justify-between items-center px-1">
-							<p class="text-gray-400">Category</p>
+							<p class="text-gray-400">Category:</p>
 							<p class="text-white/90 font-medium">{ selectedTicket ? selectedTicket.name : "None" }</p>
 						</div>
 						<div class="flex justify-between items-center px-1">
-							<p class="text-gray-400">Visitors</p>
+							<p class="text-gray-400">Visitors:</p>
 							<p class="text-white/90 font-medium">{ visitors }</p>
 						</div>
 						<div class="flex justify-between items-center px-1">
-							<p class="text-gray-400">Date</p>
+							<p class="text-gray-400">Date:</p>
 							<p class="text-white/90 font-medium">{ selectedDate || "None" }</p>
 						</div>
 						<div class="flex justify-between items-center px-1">
-							<p class="text-gray-400">Time</p>
+							<p class="text-gray-400">Time:</p>
 							<p class="text-white/90 font-medium">{ selectedTime || "None" }</p>
 						</div>
+						<div class="flex justify-between items-center px-1">
+							<p class="text-gray-400">Payment Method:</p>
+							<p class="text-white/90 font-medium">{ selectedPayment || "None" }</p>
+						</div>
 
-						<div class="pt-5 mt-5 border-t-[2px] border-gray-800">
+						<div class="pt-5 mt-7 border-t-[2px] border-gray-800">
 							<div class="flex items-center justify-between px-1">
 								<p class="text-gray-400">Total Amount</p>
 								<p class="text-xl font-semibold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">₹{total}</p>
@@ -206,7 +258,7 @@
 						<button 
             			  	class="w-full mt-2 py-4 px-6 rounded-lg font-semibold bg-gradient-to-r from-lime-400 to-emerald-400 
             			  	text-black hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
-            			  	disabled={!selectedTicket || !selectedTime}
+            			  	disabled={!selectedTicket || !selectedTime || !selectedPayment}
             			>
             			  	Proceed to Payment
             			</button>
