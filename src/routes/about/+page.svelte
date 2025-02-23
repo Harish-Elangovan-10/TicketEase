@@ -35,9 +35,9 @@
 
     const benefits = [
     {
-      title: "Museums Connected",
-      value: "28+",
-      desc: "Government museums nationwide"
+      title: "Government Museums",
+      value: "30+",
+      desc: "Connected nationwide"
     },
     {
       title: "Monthly Visitors",
@@ -60,7 +60,7 @@
         </div>
     {/if}
     <div class="mx-12 pt-8">
-        <nav class="flex justify-between items-center">
+        <nav class="flex justify-between items-center text-gray-400">
             <div class="text-2xl font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
                 MuseumPass
             </div>
@@ -115,83 +115,123 @@
     </div>
     
     <div class="pl-32 pt-24">
-        <h1 class="text-5xl h-14 font-bold bg-gradient-to-b from-lime-500 to-emerald-500 bg-clip-text text-transparent">
-            Honoring the past,
+        <h1 class="text-5xl w-fit h-14 font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
+            Honoring the past, 
         </h1>
-        <h1 class="text-5xl h-14 mt-2 font-bold bg-gradient-to-b from-lime-500 to-emerald-500 bg-clip-text text-transparent">
+        <h1 class="text-5xl w-fit h-14 mt-2 font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
             Shaping the future.
         </h1>
     </div>
     <div class="ml-32 mt-12">
-        <p class="text-xl text-gray-300 max-w-5xl">
+        <p class="text-lg text-white/75 max-w-5xl">
             Embark on a journey through time: where history lives and art speaks. More than artifacts, the museum visit is a cultural odyssey. Wander through the echoes of ancient civilizations, marvel at the masterpieces that have shaped our world, and uncover the stories behind every exhibit. Each step you take unlocks a new chapter, connecting the past with the present and inspiring a brighter future.
         </p>
     </div>
-    <div class="max-w-8xl mx-auto px-8 py-24">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+    <div class="max-w-8xl mx-auto px-14 py-24">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-20">
             {#each features as feature}
-            <div class=" bg-gradient-to-br from-gray-900 to-black rounded-xl p-8 border-[2px] border-gray-800 backdrop-blur-sm hover:border-lime-500 transition-all">
-                <div class="bg-gradient-to-br from-lime-500 to-emerald-500 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                    <svelte:component this={feature.icon} class="w-6 h-6" />
+                <div class="bg-gradient-to-br from-gray-800 to-gray-800 hover:from-lime-500 hover:to-emerald-500 p-[2px] rounded-xl">
+                    <div class="bg-gradient-to-b from-gray-900 to-black rounded-xl p-8">
+                        <div class="bg-gradient-to-br from-lime-500 to-emerald-500 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                            <svelte:component this={feature.icon} class="w-6 h-6 text-black" />
+                        </div>
+                        <h2 class="text-lg font-semibold text text-white/85 mb-2">
+                            {feature.title}
+                        </h2>
+                        <p class="text-gray-400">
+                            {feature.description}
+                        </p>
+                    </div>
                 </div>
-                <h2 class="text-lg font-semibold text text-white/85 mb-2">{feature.title}</h2>
-                <p class="text-gray-400">{feature.description}</p>
-            </div>
             {/each}
         </div>
-        <div class="bg-gradient-to-b from-gray-900 to-black rounded-xl  p-8 border-[1.5px] border-gray-800 mb-20">
-          <div class="max-w-3xl mx-auto text-center">
-            <h2 class="text-3xl font-bold bg-gradient-to-r from-lime-400 to-emerald-400 bg-clip-text text-transparent mb-6">
-              Your Gateway to Cultural Heritage
-            </h2>
-            <p class="text-lg text-gray-300 mb-12">
-              As the official government platform for museum ticket bookings, we're committed to making cultural experiences accessible to everyone. Our platform connects visitors with hundreds of state and national museums, streamlining the booking process while preserving the integrity of our cultural institutions.
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {#each benefits as stat}
-                  <div class="text-center">
-                    <div class="text-4xl font-bold bg-gradient-to-r from-lime-400 to-emerald-400 bg-clip-text text-transparent">
-                      {stat.value}
-                    </div>
-                    <h3 class="text-white/90 font-medium mt-2">{stat.title}</h3>
-                    <p class="text-gray-400 mt-1">{stat.desc}</p>
-                  </div>
-                {/each}
-              </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-20">
+            <div class="bg-gradient-to-b from-gray-900 to-black rounded-xl p-8 border-[2.5px] border-gray-800 flex flex-col items-center space-y-7">
+                <h2 class="text-3xl h-10 w-fit font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
+                    Your Gateway to Cultural Heritage
+                </h2>
+                <p class="text-md text-gray-300 text-center">
+                    As the official government platform for museum ticket bookings, we're committed to making cultural experiences accessible to everyone. Our platform connects visitors with hundreds of state and national museums, streamlining the booking process while preserving the integrity of our cultural institutions.
+                </p>
+                <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {#each benefits as stat}
+                        <div class="flex flex-col items-center text-center">
+                            <div class="text-2xl w-fit font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
+                                {stat.value}
+                            </div>
+                            <h3 class="text-white/90 font-medium text-sm mt-2">
+                                {stat.title}
+                            </h3>
+                            <p class="text-gray-400 text-sm mt-1">
+                                {stat.desc}
+                            </p>
+                        </div>
+                    {/each}
+                </div>
             </div>
-        </div>
-        <div class="ml-75 bg-gradient-to-b from-gray-900 to-black rounded-xl  p-8 border-[1.5px] border-gray-800 mb-20 w-200 ">
-            <div class="max-w-3xl mx-auto text-center">
-                <h2 class="text-3xl font-bold bg-gradient-to-r from-lime-400 to-emerald-400 bg-clip-text text-transparent mb-6">
+
+            <div class="w-full bg-gradient-to-b from-gray-900 to-black rounded-xl p-8 border-[2.5px] border-gray-800 flex flex-col items-center justify-between">
+                <h2 class="text-3xl w-fit font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
                     Get in Touch
                 </h2>
-                <p class="text-lg font-semibold text-gray-400 mb-12">
+                <p class="text-md max-w-xl font-normal text-gray-300 text-center">
                     Have questions or need assistance? Our team is here to help. Reach out to us via phone, email, or visit our office for personalized support.
                 </p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 ">
-                    <div class="flex items-center space-x-4 justify-start">
-                        <svelte:component this={Phone} class="w-8 h-8 text-lime-400" />
-                        <div>
-                            <h3 class="text-white/90 font-medium">Phone</h3>
-                            <p class="text-gray-400">+1 (800) 123-4567</p>
-                        </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <div class="flex flex-col items-center space-y-2">
+                        <Phone class="text-green-500 h-8 w-8" />
+                        <h3 class="text-white/90 font-medium">
+                            Phone
+                        </h3>
+                        <p class="text-sm text-gray-400">
+                            +1 (800) 123 4567
+                        </p>
                     </div>
-                    <div class="flex items-center space-x-4 justify-center">
-                        <svelte:component this={Mail} class="w-8 h-8 text-lime-400" />
-                        <div>
-                            <h3 class="text-white/90 font-medium">Email</h3>
-                            <p class="text-gray-400">MuseumPass@gmail.com</p>
-                        </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <Mail class="text-green-500 h-8 w-8" />
+                        <h3 class="text-white/90 font-medium">
+                            Email
+                        </h3>
+                        <p class="text-sm text-gray-400">
+                            museumpass_support@gmail.com
+                        </p>
                     </div>
-                    <div class="flex items-center space-x-4 justify-end">
-                        <svelte:component this={MapPin} class="w-8 h-8 text-lime-400" />
-                        <div>
-                            <h3 class="text-white/90 font-medium">Address</h3>
-                            <p class="text-gray-400">Chennai, India</p>
-                        </div>
+                    <div class="flex flex-col items-center space-y-2">
+                        <MapPin class="text-green-500 h-8 w-8" />
+                        <h3 class="text-white/90 font-medium">
+                            Address
+                        </h3>
+                        <p class="text-sm text-gray-400">
+                            Chennai, India
+                        </p>
                     </div>
                 </div>                
             </div>
         </div>
+
+        <div class="w-full flex flex-col items-center space-y-10">
+            <h2 class="bg-gradient-to-r w-fit from-lime-500 to-emerald-500 bg-clip-text text-transparent text-3xl font-bold">
+                Stay Updated
+            </h2>
+            <p class="text-md max-w-xl font-normal text-gray-400 text-center">
+                Subscribe to receive updates about new museum additions, special exhibitions, offers and exclusive cultural events.
+            </p>
+            <div class="flex items-center gap-5">
+                <input 
+                    type="email"
+                    class="bg-gradient-to-br from-gray-900 to-gray-950 rounded-lg border-2 border-gray-800 px-4 py-3 pr-20 
+                    focus:outline-none hover:border-lime-500 focus:border-emerald-500"
+                    placeholder="Enter your email"
+                />
+                <button 
+                    class="bg-gradient-to-br from-lime-500 to-emerald-500 px-5 py-3 rounded-lg text-black
+                    hover:from-lime-600 hover:to-emerald-600"
+                >
+                    Subscribe
+                </button>                
+            </div>
+        </div>
+
     </div>
 </div>
