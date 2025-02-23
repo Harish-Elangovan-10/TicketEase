@@ -2,7 +2,7 @@
     import { user } from "$lib/auth";
     import LoadingAnimation from "$lib/loadingAnimation.svelte";
     import { isPageLoading, stopLoading } from "$lib/pageLoading";
-    import { handleMuseums, handleSignIn, handleSignUp, handleSignOut } from "$lib/handleRouting";
+    import { handleMuseums, handleSignIn, handleSignUp, handleSignOut, handleAboutUs } from "$lib/handleRouting";
     import { Building2, Globe, Users, MapPin } from "lucide-svelte";
     import { onMount } from "svelte";
     import museums from "$lib/museums.json";
@@ -46,7 +46,10 @@
                 >
                     Museums
                 </button>
-                <button class="hover:text-white/90 transition-colors duration-200">
+                <button
+                    onclick={handleAboutUs} 
+                    class="hover:text-white/90 transition-colors duration-200"
+                >
                     About Us
                 </button>
                 

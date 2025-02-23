@@ -50,3 +50,13 @@ export const handleMuseums = () => {
         console.error("Failed to navigate to Museums: ", error);
     }
 };
+
+export const handleAboutUs = () => {
+    try {
+        startLoading();
+        window.location.href = "/about";
+    } catch (error) {
+        stopLoading();
+        console.error("Failed to navigate to About Us: ", error);
+    }
+};
