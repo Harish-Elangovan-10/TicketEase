@@ -27,7 +27,7 @@
 
 <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black text-gray-400">
     {#if $isPageLoading}
-        <div class="absolute flex items-center justify-center w-full h-screen bg-black/75 backdrop-blur-sm">
+        <div class="fixed inset-0 flex items-center justify-center w-full h-screen bg-black/75 backdrop-blur-sm z-50">
             <LoadingAnimation />
         </div>
     {/if}
@@ -92,7 +92,7 @@
                     All Museums
                 </h1>
                 <div class="flex w-full gap-5 md:w-auto">
-                    <div class="{ $isPageLoading ? '' : 'relative' } flex-1 md:flex-none">
+                    <div class="relative flex-1 md:flex-none">
                         <Search class="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5" />
                         <input
                             type="text"

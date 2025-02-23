@@ -26,7 +26,7 @@
 
 <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black text-gray-400">    
     {#if $isPageLoading}
-        <div class="absolute flex items-center justify-center w-full h-screen bg-black/75 backdrop-blur-sm">
+        <div class="fixed inset-0 flex items-center justify-center w-full h-screen bg-black/75 backdrop-blur-sm z-50">
             <LoadingAnimation />
         </div>
     {/if}

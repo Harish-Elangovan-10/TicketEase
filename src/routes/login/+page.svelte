@@ -38,7 +38,12 @@
 	}
 </script>
 
-<div class="min-h-screen text-white/75 bg-gradient-to-br from-gray-900 to-black flex items-center justify-center p-4">
+<div class="min-h-screen text-white/75 bg-gradient-to-br from-gray-900 to-black flex items-center justify-center p-4">	
+	{#if $isPageLoading}
+		<div class="fixed inset-0 flex items-center justify-center w-full h-screen bg-black/75 backdrop-blur-sm z-50">
+			<LoadingAnimation />
+		</div>
+	{/if}
 	<div class="flex flex-col items-center justify-stretch space-y-5">
 		<h1 class="h-12 text-4xl font-bold bg-gradient-to-r from-lime-400 to-emerald-400 bg-clip-text text-transparent">
 			Great to be back!
@@ -155,9 +160,4 @@
 			</div>
 		</div>
 	</div>
-	{#if $isPageLoading}
-		<div class="absolute flex items-center justify-center w-full h-screen bg-black/75 backdrop-blur-sm">
-			<LoadingAnimation />
-		</div>
-	{/if}
 </div>
