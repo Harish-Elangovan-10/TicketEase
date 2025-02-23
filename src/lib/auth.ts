@@ -8,10 +8,14 @@ import {
     setPersistence,
     browserLocalPersistence,
     browserSessionPersistence,
+    GoogleAuthProvider,
+    signInWithPopup,
+    sendPasswordResetEmail,
     type User,
 } from "firebase/auth";
 
 export const user = writable<User | null>(null);
+const googleProvider = new GoogleAuthProvider();
 
 auth.onAuthStateChanged((firebaseUser) => {
     user.set(firebaseUser);
@@ -36,6 +40,24 @@ export const signIn = async (email: string, password: string, rememberMe: boolea
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
         return userCredential.user;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const signInWithGoogle = async () => {
+    try {
+        const result = await signInWithPopup(auth, googleProvider);
+        
+        return result.user;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const resetPassword = async (email: string) => {
+    try {
+        await sendPasswordResetEmail(auth, email);
     } catch (error) {
         throw error;
     }

@@ -3,7 +3,7 @@
 	import LoadingAnimation from '$lib/loadingAnimation.svelte';
 	import { isPageLoading, startLoading, stopLoading } from '$lib/pageLoading';
 	import { onMount } from 'svelte';
-	import { signIn } from '$lib/auth';
+	import { signIn, signInWithGoogle } from '$lib/auth';
 
 	let email = $state('');
 	let password = $state('');
@@ -22,6 +22,29 @@
 		}
 	};
 
+	const handleGoogleSignIn = async () => {
+		try {
+			startLoading();
+			error = '';
+			await signInWithGoogle();
+			window.location.href = '/';
+		} catch (e) {
+			stopLoading();
+			error = "Failed to sign in with Google."
+		}
+	};
+
+	const handleForgotPassword = async () => {
+		try {
+			startLoading();
+			error = '';
+			window.location.href = '/forgotpass';
+		} catch (e) {
+			stopLoading();
+			error = "Failed to reset your password.";
+		}
+	};
+
 	onMount(() => {
 		stopLoading();
 		document.title = "Sign In";
@@ -31,11 +54,7 @@
 
 	const togglePassword = () => {
 		showPassword = !showPassword;
-	}
-
-	const handleGoogleSignIn = () => {
-		console.log("Google Sign In Clicked");
-	}
+	};
 </script>
 
 <div class="min-h-screen text-white/75 bg-gradient-to-br from-gray-900 to-black flex items-center justify-center p-4">	
@@ -55,7 +74,7 @@
 				The faster you fuel up, the faster you snag your ticket.
 			</h2>
 		{/if}
-		<div class="w-md bg-gradient-to-b from-gray-900 to-black rounded-xl shadow-[0_0_15px_rgba(0, 0, 0, 0.7)] p-8 border-[1.5px] border-gray-800 backdrop-blur-sm">
+		<div class="w-md bg-gradient-to-b from-gray-900 to-black rounded-xl p-8 border-[1.5px] border-gray-800 backdrop-blur-sm">
 			<form onsubmit={handleSignIn}>
 				<div class="space-y-7">
 					<div class="relative group input-gradient">
@@ -109,6 +128,7 @@
 							</label>
 						</div>
 						<button
+							onclick={handleForgotPassword}
 							type="button"
 							class="text-sm bg-gradient-to-r from-lime-400 to-emerald-400 bg-clip-text text-transparent 
 							hover:from-lime-600 hover:to-emerald-600 focus:from-teal-500 focus:to-green-500 transition-all duration-200"

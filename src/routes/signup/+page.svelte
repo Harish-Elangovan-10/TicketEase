@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Mail, Lock, Eye, EyeClosed, User } from 'lucide-svelte';
 	import { onMount } from 'svelte';
-	import { signUp } from '$lib/auth';
+	import { signUp, signInWithGoogle } from '$lib/auth';
     import { isPageLoading, startLoading, stopLoading } from '$lib/pageLoading';
     import LoadingAnimation from '$lib/loadingAnimation.svelte';
 
@@ -30,6 +30,18 @@
 		}
 	};
 
+	const handleGoogleSignUp = async () => {
+		try {
+			startLoading();
+			error = '';
+			await signInWithGoogle();
+			window.location.href = '/';
+		} catch (e) {
+			stopLoading();
+			error = "Failed to sign in with Google."
+		}
+	};
+
 	onMount(() => {
 		stopLoading();
 		document.title = "Sign Up";
@@ -38,16 +50,12 @@
 	let showPassword = $state(false);
 	const togglePassword = () => {
 		showPassword = !showPassword;
-	}
+	};
 
 	let showConfirm = $state(false);
 	const toggleConfirm = () => {
 		showConfirm = !showConfirm;
-	}
-
-	const handleGoogleSignUp = () => {
-		console.log("Google Sign Up Clicked");
-	}
+	};
 </script>
 
 <div class="min-h-screen text-white/75 bg-gradient-to-br from-gray-900 to-black flex items-center justify-center p-4">
