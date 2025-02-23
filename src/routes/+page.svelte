@@ -85,7 +85,7 @@
                 Discover India's Heritage
             </h1>
             <p class="text-xl text-gray-400 max-w-2xl mb-10">
-                Your digital gateway to India's most prestigious museums. Experience the rich cultural heritage and artistic treasures across different states.
+                Your digital gateway to India's most prestigious museums. Experience the rich cultural heritage and artistic treasures across different states
             </p>
             <div class="flex gap-10 text-gray-400">
                 <div class="flex items-center gap-3">

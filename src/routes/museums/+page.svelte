@@ -32,7 +32,7 @@
         </div>
     {/if}
     <div class="mx-12 pt-8">
-        <nav class="flex justify-between items-center mb-20">
+        <nav class="flex justify-between items-center mb-10">
             <div class="text-2xl font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
                 MuseumPass
             </div>
@@ -79,6 +79,14 @@
         </nav>
 
         <div class="pb-12">
+            <div class="flex flex-col items-center text-center mb-10 space-y-6">
+                <h1 class="text-5xl font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
+                    Discover Museums
+                </h1>
+                <p class="text-xl text-gray-400">
+                    Find and explore amazing museums across different states
+                </p>
+            </div>
             <div class="flex flex-col md:flex-row items-center justify-between mb-16 gap-5">
                 <h1 class="text-3xl font-bold text-white/90">
                     All Museums
@@ -150,6 +158,12 @@
                     </div>
                 {/each}
             </div>
+
+            {#if sortedMuseums.length == 0}
+                <div class="w-full h-[50vh] flex items-center justify-center">
+                    <p class="text-xl text-gray-400">No museums found matching your search criteria.</p>
+                </div>
+            {/if}
         </div>
 
     </div>
