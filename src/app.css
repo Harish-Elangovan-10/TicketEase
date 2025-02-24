@@ -54,3 +54,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   height: 1.5em;
   cursor: pointer;
 }
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(to bottom, #84cc16, #10b981);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-image: linear-gradient(to bottom, #84cc16, #10b981);
+}
