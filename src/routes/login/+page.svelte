@@ -117,13 +117,13 @@
 					</div>
 
 					<div class="flex items-center justify-between">
-						<div class="flex items-center">
+						<div class="flex items-center gap-2.5">
 							<input 
 								type="checkbox"
 								bind:checked={rememberMe}
-								class="h-4 w-4"
+								class="h-6 w-6 transition-all duration-300"
 							/>
-							<label for="remenber-me" class="ml-2 block text-sm text-gray-400">
+							<label for="remenber-me" class="block text-sm text-gray-400">
 								Remember me
 							</label>
 						</div>
