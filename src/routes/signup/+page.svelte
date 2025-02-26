@@ -23,7 +23,7 @@
 				return;
 			}
 			await signUp(email, password, firstname, lastname);
-			window.location.href = '/';
+			window.location.href = '/userdata';
 		} catch (e) {
 			stopLoading();
 			error = "Failed to create account. Please try again.";
@@ -35,7 +35,7 @@
 			startLoading();
 			error = '';
 			await signInWithGoogle();
-			window.location.href = '/';
+			window.location.href = '/userdata';
 		} catch (e) {
 			stopLoading();
 			error = "Failed to sign in with Google."
@@ -81,7 +81,7 @@
 					<div class="grid grid-cols-2 gap-3">
 						<div class="relative group input-gradient">
 							<div class="absolute inset-y-0 l-0 pl-4 flex items-center pointer-events-none">
-								<User class="h-5 w-5 text-gray-400 group-focus-within:text-emerald-400 transition-colors" />
+								<User class="h-5 w-5 group-focus-within:text-emerald-400 transition-colors {firstname.trim() !== '' ? 'text-lime-500' : 'text-gray-400'}" />
 							</div>
 							<input
 							type="text"
@@ -95,7 +95,7 @@
 
 						<div class="relative group input-gradient">
 							<div class="absolute inset-y-0 l-0 pl-4 flex items-center pointer-events-none">
-								<User class="h-5 w-5 text-gray-400 group-focus-within:text-emerald-400 transition-colors" />
+								<User class="h-5 w-5 group-focus-within:text-emerald-400 transition-colors {lastname.trim() !== '' ? 'text-lime-500' : 'text-gray-400'}" />
 							</div>
 							<input
 							type="text"
@@ -110,7 +110,7 @@
 
 					<div class="relative group input-gradient">
 						<div class="absolute inset-y-0 l-0 pl-4 flex items-center pointer-events-none">
-							<Mail class="h-5 w-5 text-gray-400 group-focus-within:text-emerald-400 transition-colors" />
+							<Mail class="h-5 w-5 group-focus-within:text-emerald-400 transition-colors {email.trim() !== '' ? 'text-lime-500' : 'text-gray-400'}" />
 						</div>
 						<input
 						type="email"
@@ -124,7 +124,7 @@
 					
 					<div class="relative group input-gradient">
 						<div class="absolute inset-y-0 l-0 pl-4 flex items-center pointer-events-none">
-							<Lock class="h-5 w-5 text-gray-400 group-focus-within:text-emerald-400 transition-colors" />
+							<Lock class="h-5 w-5 group-focus-within:text-emerald-400 transition-colors {password.trim() !== '' ? 'text-lime-500' : 'text-gray-400'}" />
 						</div>
 						<input
 							type={showPassword ? "text" : "password"}
@@ -149,7 +149,7 @@
 					
 					<div class="relative group input-gradient">
 						<div class="absolute inset-y-0 l-0 pl-4 flex items-center pointer-events-none">
-							<Lock class="h-5 w-5 text-gray-400 group-focus-within:text-emerald-400 transition-colors" />
+							<Lock class="h-5 w-5 group-focus-within:text-emerald-400 transition-colors {confirm.trim() !== '' ? 'text-lime-500' : 'text-gray-400'}" />
 						</div>
 						<input
 							type={showConfirm ? "text" : "password"}
