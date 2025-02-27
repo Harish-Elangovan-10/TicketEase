@@ -235,7 +235,7 @@
 						</h1>
 					</div>
 
-					<div class="grid grid-cols-1 space-y-5">
+					<div class="grid grid-cols-1 space-y-6">
 						<div class="grid grid-cols-2 gap-5">
 							<div class="relative group input-gradient">
 								<div class="absolute inset-y-0 l-0 pl-4 flex items-center pointer-events-none">
@@ -282,17 +282,17 @@
 								/>
 							</div>
 
-							<div class="relative group input-gradient">
+							<div class="relative group">
 								<div class="absolute inset-y-0 l-0 pl-4 flex items-center pointer-events-none">
 									<Mail class="h-5 w-5 group-focus-within:text-emerald-400 transition-colors {userData.email?.trim() !== '' ? 'text-lime-500' : 'text-gray-400'}" />
 								</div>
 								<input
 								  type="text"
 								  bind:value={userData.email}
-								  class="block w-full pl-12 pr-4 py-2.5 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
-								  	border-[2px] border-gray-800 hover:border-transparent focus-within:border-transparent"
+								  class="block w-full pl-12 pr-4 py-2.5 rounded-lg bg-gray-900/85 placeholder-white/30 transition-all duration-200 focus:outline-none 
+								  	border-[2px] border-gray-800 text-gray-500/80"
 								  placeholder="Email Address"
-								  required
+								  disabled
 								/>
 							</div>
 						</div>
