@@ -11,17 +11,7 @@
         stopLoading();
     });
 
-    const getUserName = (name: string) => {
-        const names = name.trim().split(/\s+/);
-        if(names.length === 1) {
-            return { firstname: names[0], lastname: ""};
-        }
-
-        const firstname = names.slice(0, -1).join(" ");
-        const lastname = names[names.length - 1];
-
-        return { firstname, lastname };
-    };
+    const featuredMuseums = [13, 20, 35, 22, 11, 0, 28, 6];
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black text-gray-400">    
@@ -120,27 +110,27 @@
                 </button>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
-                {#each museums.slice(0, 8) as museum}
+                {#each featuredMuseums as index}
                     <div class="bg-gradient-to-br from-gray-900 to-black rounded-xl border-[1.5px] border-gray-800">
                         <div class="h-48">
                             <img 
-                                src={museum.image} 
-                                alt={museum.title}
+                                src={museums[index].image} 
+                                alt={museums[index].title}
                                 class="h-full w-full object-cover rounded-t-xl"
                             />
                         </div>
                         <div class="p-6 flex flex-col">
                             <h3 class="text-xl font-bold text-white/90 mb-4">
-                                {museum.title}
+                                {museums[index].title}
                             </h3>
                             <div class="flex items-center gap-2 mb-4">
                                 <MapPin class="h-5 w-5 text-emerald-500" />
                                 <span class="text-md">
-                                    {museum.location}, {museum.state}
+                                    {museums[index].location}, {museums[index].state}
                                 </span>
                             </div>
                             <p class="text-md text-gray-300 mb-6">
-                                {museum.description}
+                                {museums[index].description}
                             </p>
                             <div class="flex items-center justify-between">
                                 <span class="flex items-center justify-start gap-1.5 text-md text-gray-400">
@@ -148,7 +138,7 @@
                                         Starts from
                                     </p>
                                     <span class="bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent font-bold text-lg">
-                                        {museum.price}
+                                        {museums[index].price}
                                     </span>
                                 </span>
                                 <button class="px-4 py-2 rounded-lg bg-gradient-to-br from-lime-500 to-emerald-500 hover:from-lime-600 hover:to-emerald-600
