@@ -7,6 +7,7 @@ export const handleSignUp = () => {
         startLoading();
         setTimeout(() => {
             goto(`/signup`);
+            stopLoading();
         }, 1500);
     } catch (error) {
         stopLoading();
@@ -19,6 +20,7 @@ export const handleSignIn = () => {
         startLoading();
         setTimeout(() => {
             goto(`/login`);
+            stopLoading();
         }, 1500);
     } catch (error) {
         stopLoading();
@@ -32,6 +34,7 @@ export const handleSignOut = async () => {
         await signOut();
         setTimeout(() => {
             goto(`/`);
+            stopLoading();
         }, 1500);
     } catch (error) {
         console.error("Failed to Sign Out: ", error);
@@ -43,6 +46,7 @@ export const handleHome = () => {
         startLoading();
         setTimeout(() => {
             goto(`/`);
+            stopLoading();
         }, 1500);
     } catch (error) {
         stopLoading();
@@ -55,6 +59,7 @@ export const handleMuseums = () => {
         startLoading();
         setTimeout(() => {
             goto(`/museums`);
+            stopLoading();
         }, 1500);
     } catch (error) {
         stopLoading();
@@ -67,9 +72,23 @@ export const handleAboutUs = () => {
         startLoading();
         setTimeout(() => {
             goto(`/about`);
+            stopLoading();
         }, 1500);
     } catch (error) {
         stopLoading();
         console.error("Failed to navigate to About Us: ", error);
+    }
+};
+
+export const handleMuseumView = (id: string) => {
+    try {
+        startLoading();
+        setTimeout(() => {
+            goto(`/museumView/${id}`);
+            stopLoading();
+        }, 1500);
+    } catch (error) {
+        stopLoading();
+        console.error("Failed to navaigate to selected Museum page: ",  error);
     }
 };
