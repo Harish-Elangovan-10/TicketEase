@@ -1,11 +1,11 @@
 <script lang="ts">
     import { user } from "$lib/auth";
     import LoadingAnimation from "$lib/loadingAnimation.svelte";
-    import { isPageLoading, stopLoading } from "$lib/pageLoading";
+    import { isPageLoading, startLoading, stopLoading } from "$lib/pageLoading";
     import { handleMuseums, handleSignIn, handleSignUp, handleSignOut, handleAboutUs } from "$lib/handleRouting";
     import { Building2, Globe, Users, MapPin } from "lucide-svelte";
     import { onMount } from "svelte";
-    import museums from "$lib/museums.json";
+    import museums from "$lib/museums.json"
 
     onMount(() => {
         stopLoading();
@@ -14,21 +14,15 @@
     const featuredMuseums = [13, 20, 35, 22, 11, 0, 28, 6];
 </script>
 
-<div class="min-h-screen bg-gradient-to-br from-gray-900 to-black text-gray-400">    
-    {#if $isPageLoading}
-        <div class="fixed inset-0 flex items-center justify-center w-full h-screen bg-black/75 backdrop-blur-sm z-50">
-            <LoadingAnimation />
-        </div>
-    {/if}
+<div class="min-h-screen bg-gradient-to-br from-gray-900 to-black text-gray-400">
     <div class="mx-12 pt-8">
         <nav class="flex justify-between items-center">
             <div class="text-2xl font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
                 MuseumPass
             </div>
-            <div class="flex space-x-8">
-                <button class="hover:text-white/90 transition-colors duration-200"
-                onclick={() => window.location.href = "/booknow"}>
-                    Book Now
+            <div class="flex items-center space-x-8">
+                <button class="text-white/90">
+                    Home
                 </button>
                 <button 
                     onclick={handleMuseums}
@@ -47,13 +41,17 @@
                     <button class="hover:text-white/90 transition-colors duration-200">
                         Dashboard
                     </button>
-                    <button 
-                        onclick={handleSignOut}
-                        class="px-4 py-2 rounded-lg bg-gradient-to-br from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 
-                        focus:from-red-700 focus:to-red-800 transition-all duration-200 text-black"
-                    >
-                        Sign Out
-                    </button>
+                    <div class="flex items-center space-x-6">
+                        <p class="bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent font-semibold transition-all duration-200">
+                            Hello, {$user.firstName}
+                        </p>
+                        <button 
+                            onclick={handleSignOut}
+                            class="h-10 w-10 bg-gradient-to-br from-lime-500 to-emerald-500 rounded-full flex justify-center items-center text-black font-semibold"
+                        >
+                            {$user.firstName[0]}{$user.lastName[0]}
+                        </button>
+                    </div>
                 {:else}
                     <button 
                         onclick={handleSignIn}
@@ -73,11 +71,11 @@
             </div>
         </nav>
 
-        <div class="flex flex-col items-center text-center pt-16 pb-10 px-10 space-y-5">
+        <div class="flex flex-col items-center text-center pt-16 pb-10 px-10 space-y-4">
             <h1 class="h-20 text-6xl font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
                 Discover India's Heritage
             </h1>
-            <p class="text-xl text-gray-400 max-w-2xl mb-10">
+            <p class="text-xl text-gray-400 max-w-2xl mb-8">
                 Your digital gateway to India's most prestigious museums. Experience the rich cultural heritage and artistic treasures across different states
             </p>
             <div class="flex gap-10 text-gray-400">
@@ -138,7 +136,7 @@
                                         Starts from
                                     </p>
                                     <span class="bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent font-bold text-lg">
-                                        {museums[index].price}
+                                        ₹{museums[index].price}
                                     </span>
                                 </span>
                                 <button class="px-4 py-2 rounded-lg bg-gradient-to-br from-lime-500 to-emerald-500 hover:from-lime-600 hover:to-emerald-600

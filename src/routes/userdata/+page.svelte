@@ -74,11 +74,6 @@
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black flex flex-col items-center text-gray-400">
-    {#if $isPageLoading}
-        <div class="fixed inset-0 flex items-center justify-center w-full h-screen bg-black/75 backdrop-blur-sm z-50">
-            <LoadingAnimation />
-        </div>
-    {/if}
     <div class="flex flex-col items-center mt-20 mb-12">
         <h1 class="w-fit text-4xl font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
             Update Your Profile

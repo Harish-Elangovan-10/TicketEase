@@ -26,11 +26,6 @@
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black text-gray-400">
-    {#if $isPageLoading}
-        <div class="fixed inset-0 flex items-center justify-center w-full h-screen bg-black/75 backdrop-blur-sm z-50">
-            <LoadingAnimation />
-        </div>
-    {/if}
     <div class="mx-12 pt-8">
         <nav class="flex justify-between items-center mb-10">
             <div class="text-2xl font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
