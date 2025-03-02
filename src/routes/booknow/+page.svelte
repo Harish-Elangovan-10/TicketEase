@@ -398,7 +398,7 @@
 											<div class="flex w-full items-center justify-between mb-3">
 												<h3 class="font-medium text-xl bg-clip-text text-transparent bg-gradient-to-r 
 													{ ticket.type === "Elite" ? 'from-yellow-400 to-amber-600' : 
-													ticket.type === "Premium" ? 'from-purple-400 to-indigo-600' : 
+													ticket.type === "Premium" ? 'from-violet-400 to-indigo-600' : 
 													'from-cyan-400 to-blue-600' }"
 												>
 													{ticket.type}
@@ -420,7 +420,7 @@
 											<div class="flex flex-col items-start space-y-2.5">
 												<h3 class="font-medium text-xl bg-clip-text text-transparent bg-gradient-to-r 
 													{ ticket.type === "Elite" ? 'from-yellow-400 to-amber-600' : 
-													ticket.type === "Premium" ? 'from-purple-400 to-indigo-600' : 
+													ticket.type === "Premium" ? 'from-violet-400 to-indigo-600' : 
 													'from-cyan-400 to-blue-600' }"
 												>
 													{ticket.type}

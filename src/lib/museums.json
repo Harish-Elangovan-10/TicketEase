@@ -1,98 +1,291 @@
 [
     {
-        "title": "National Museum",
-        "state": "Delhi",
-        "location": "New Delhi",
-        "image": "https://delhitourism.travel/images/places-to-visit/headers/national-museum-of-india-delhi-tourism-entry-fee-timings-holidays-reviews-header.jpg",
+        "title": "Visakha Museum",
+        "state": "Andhra Pradesh",
+        "location": "Visakhapatnam",
+        "image": "https://travelsetu.com/apps/uploads/new_destinations_photos/destination/2023/12/29/47004a0df2fb75bbc76b94d6c14dc160_1000x1000.jpeg",
+        "price": "₹120",
+        "description": "Museum displaying historic weapons, manuscripts & maritime items from Vizag."
+    },
+    {
+        "title": "Jawaharlal Nehru Museum",
+        "state": "Arunachal Pradesh",
+        "location": "Itanagar",
+        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/b3/8b/8e/main-building.jpg?w=1200&h=-1&s=1",
+        "price": "₹110",
+        "description": "Museum showcasing tribal artifacts and heritage of Arunachal Pradesh."
+    },
+    {
+        "title": "Assam State Museum",
+        "state": "Assam",
+        "location": "Guwahati",
+        "image": "https://cdn.tripuntold.com/media/photos/location/2018/11/28/d2dcf8b6-d35d-4c7a-82da-a7be41938f0e.jpg",
+        "price": "₹120",
+        "description": "Museum showcasing Assam's heritage through sculptures and ancient artifacts."
+    },
+    {
+        "title": "Bihar Museum",
+        "state": "Bihar",
+        "location": "Patna",
+        "image": "https://s7ap1.scene7.com/is/image/incredibleindia/bihar-museum-patna-bihar-1-musthead-hero?qlt=82&ts=1726740176622",
+        "price": "₹100", 
+        "description": "Modern museum displaying Bihar's history through galleries and cultural artifacts."
+    },
+    {
+        "title": "Mahant Ghasidas Memorial",
+        "state": "Chhattisgarh",
+        "location": "Raipur",
+        "image": "https://static-blog.treebo.com/wp-content/uploads/2023/01/Mahant-Ghasidas-Memorial-Museum_facebook.com_-1024x675.jpg",
+        "price": "₹110",
+        "description": "Museum with ancient coins, sculptures & tribal artifacts from Chhattisgarh's heritage."
+    },
+    {
+        "title": "Goa State Museum",
+        "state": "Goa",
+        "location": "Panaji",
+        "image": "https://www.explorebees.com/uploads/Goa%20State%20Museum.jpg",
+        "price": "₹100",
+        "description": "Museum showcasing Goan history with artifacts, sculptures & colonial exhibits."
+    },
+    {
+        "title": "Maharaja Fateh Singh Museum",
+        "state": "Gujarat",
+        "location": "Vadodara",
+        "image": "https://www.gujarattourism.com/content/dam/gujrattourism/images/heritage-sites/laxmi-vilas-palace/Laxmi-Vilas-Palace-Thumbnail.jpg",
         "price": "₹150",
-        "description": "Home to over 200,000 artifacts representing 5,000 years of Indian cultural heritage"
+        "description": "Royal palace museum displaying Gaekwad dynasty art and artifacts."
+    },
+    {
+        "title": "Kurukshetra Panorama Museum",
+        "state": "Haryana",
+        "location": "Kurukshetra",
+        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/43/87/f9/panorama-science-centre.jpg?w=1200&h=-1&s=1",
+        "price": "₹140",
+        "description": "Museum combining Mahabharata war displays with hands-on science exhibits."
+    },
+    {
+        "title": "Shimla State Museum",
+        "state": "Himachal Pradesh",
+        "location": "Shimla",
+        "image": "https://shimlatourism.co.in/images/places-to-visit/headers/himachal-state-museum-shimla-tourism-entry-fee-timings-holidays-reviews-header.jpg",
+        "price": "₹130",
+        "description": "Colonial museum featuring Himachal's art, coins & cultural artifacts."
+    },
+    {
+        "title": "Jharkhand War Memorial",
+        "state": "Jharkhand", 
+        "location": "Ranchi",
+        "image": "https://archive.cloud.cwgc.org/images-cemetery-images-prod/2085500/Ranchi-War-cemetery-2008-4.jpg",
+        "price": "₹120",
+        "description": "Museum honoring soldiers with war artifacts and records of Jharkhand's martyrs."
+    },
+    {
+        "title": "Visvesvaraya Museum",
+        "state": "Karnataka",
+        "location": "Bengaluru",
+        "image": "https://www.vismuseum.gov.in/assets/img/aboutus/about1.jpg",
+        "price": "₹175",
+        "description": "Science museum with interactive exhibits on space, mechanics and technology."
+    },
+    {
+        "title": "Napier Museum",
+        "state": "Kerala",
+        "location": "Thiruvananthapuram",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/c/ca/Napier_Museum_TVM.jpg",
+        "price": "₹120",
+        "description": "Historic museum with art & artifacts in Indo-Saracenic building."
+    },
+    {
+        "title": "State Museum",
+        "state": "Madhya Pradesh",
+        "location": "Bhopal",
+        "image": "https://newsmantra.in/wp-content/uploads/2024/11/Bhopal-State-Museum.jpg",
+        "price": "₹120",
+        "description": "Museum featuring MP history with sculptures, artifacts & ancient art."
     },
     {
         "title": "Chhatrapati Shivaji Museum",
-        "state": "Maharashtra",
+        "state": "Maharashtra", 
         "location": "Mumbai",
-        "image": "https://s7ap1.scene7.com/is/image/incredibleindia/chhatrapati-shivaji-maharaj-museum-chhatrapati-sambhaji-nagar-maharashtra-2-attr-hero?qlt=82&ts=1727010486571",
-        "price": "₹200",
-        "description": "Indo-Saracenic architecture housing extensive collection of Indian history"
+        "image": "https://s7ap1.scene7.com/is/image/incredibleindia/1-chatrapati-shivaji-maharaj-vastu-sangrahalaya-or-prince-of-wales-museum-mumbai-maharashtra-attr-hero?qlt=82&ts=1727355300214",
+        "price": "₹185",
+        "description": "Premier museum with art and artifacts housed in an Indo-Saracenic building."
     },
     {
-        "title": "Indian Museum",
-        "state": "West Bengal",
-        "location": "Kolkata",
-        "image": "https://resize.indiatvnews.com/en/resize/newbucket/715_-/2020/03/2018-06-22-1584239865.jpg",
-        "price": "₹125",
-        "description": "The largest and oldest museum in India, founded in 1814"
+        "title": "Manipur State Museum",
+        "state": "Manipur",
+        "location": "Imphal",
+        "image": "https://indiano.travel/wp-content/uploads/2022/05/Manipur-State-Museum.jpg",
+        "price": "₹110",
+        "description": "Museum showcasing Manipuri tribal heritage, costumes & cultural artifacts."
     },
     {
-        "title": "Salar Jung Museum",
-        "state": "Telangana",
-        "location": "Hyderabad",
-        "image": "https://s7ap1.scene7.com/is/image/incredibleindia/salar-jung-museum-hyderabad-secunderabad-telangana-14-musthead-hero?qlt=82&ts=1726653045999",
-        "price": "₹250",
-        "description": "One of the three National Museums housing with largest one-man collection"
+        "title": "Don Bosco Museum",
+        "state": "Meghalaya",
+        "location": "Shillong",
+        "image": "https://images.wanderon.in/blogs/new/2023/10/top-min-22.jpg",
+        "price": "₹100",
+        "description": "Northeast India's largest cultural museum with tribal artifacts & exhibits."
     },
     {
-        "title": "Government Museum",
-        "state": "Tamil Nadu",
-        "location": "Chennai",
-        "image": "https://th-i.thgim.com/public/incoming/1w2cnw/article67994130.ece/alternates/LANDSCAPE_1200/Museum_Theatre1.JPG",
-        "price": "₹200",
-        "description": "Second oldest museum in India with rare bronze and stone sculptures"
+        "title": "Mizoram State Museum",
+        "state": "Mizoram",
+        "location": "Aizawl",
+        "image": "https://media-cdn.tripadvisor.com/media/photo-m/1280/1a/bf/57/7f/state-museum-you-can.jpg",
+        "price": "₹100",
+        "description": "Museum showcasing Mizo tribal culture through textiles, weapons & handicrafts."
+    },
+    {
+        "title": "Nagaland State Museum",
+        "state": "Nagaland",
+        "location": "Kohima",
+        "image": "https://s7ap1.scene7.com/is/image/incredibleindia/state-museum-kohima-nagaland-1-attr-hero?qlt=82&ts=1727012321062",
+        "price": "₹110",
+        "description": "Museum showcasing Naga tribal heritage with traditional artifacts & weapons."
+    },
+    {
+        "title": "Odisha State Museum",
+        "state": "Odisha",
+        "location": "Bhubaneswar",
+        "image": "https://odishatourism.gov.in/content/dam/tourism/home/discover/attractions/museum/odisha-state-museum/gallery/2.jpg",
+        "price": "₹120",
+        "description": "Museum featuring Odisha's cultural artifacts, sculptures & tribal heritage."
+    },
+    {
+        "title": "Maharaja Ranjit Singh Museum",
+        "state": "Punjab",
+        "location": "Ludhiana",
+        "image": "https://s7ap1.scene7.com/is/image/incredibleindia/maharaja-ranjit-singh-war-museum-ludhiana-punjab-1-attr-hero?qlt=82&ts=1726661920467",
+        "price": "₹150",
+        "description": "Military museum with war artifacts & Punjab's defense history exhibits."
     },
     {
         "title": "Albert Hall Museum",
         "state": "Rajasthan",
         "location": "Jaipur",
-        "image": "https://content-tourist.rajasthan.gov.in/uploads/albert_hall_museum_jaipur_entry_fee_timings_holidays_reviews_header_219f4b832f.jpg",
-        "price": "₹100",
-        "description": "Oldest museum in Rajasthan showcasing royal heritage and artifacts"
+        "image": "https://s7ap1.scene7.com/is/image/incredibleindia/albert-hall-museum-jaipur-rajasthan-3-attr-hero?qlt=82&ts=1726660086518",
+        "price": "₹140",
+        "description": "Oldest Rajasthan museum with art, artifacts & historical exhibits."
     },
     {
-        "title": "Calicut Art Gallery",
-        "state": "Kerala",
-        "location": "Kozhikode",
-        "image": "https://yometro.com/images/places/pazhassi-raja-museum-art-gallery.jpg",
-        "price": "₹125",
-        "description": "Showcasing Kerala's rich artistic heritage and contemporary works"
+        "title": "Namgyal Institute of Tibetology",
+        "state": "Sikkim",
+        "location": "Gangtok",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Namgyal_Institute_of_Tibetology_Front_Panorama.jpg/1200px-Namgyal_Institute_of_Tibetology_Front_Panorama.jpg",
+        "price": "₹120",
+        "description": "Museum showcasing Tibetan Buddhist culture with manuscripts and art pieces."
     },
     {
-        "title": "State Museum",
+        "title": "Government Museum, Chennai",
+        "state": "Tamil Nadu",
+        "location": "Chennai",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/6/66/Madras_museum_theatre_in_October_2007.jpg",
+        "price": "₹175",
+        "description": "Historic museum with sculptures, coins & natural history displays."
+    },
+    {
+        "title": "Salar Jung Museum",
+        "state": "Telangana",
+        "location": "Hyderabad",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Salar_Jung_Museum%2C_Hyderabad%2C_India.jpg",
+        "price": "₹150",
+        "description": "Iconic museum with vast collection of global art and historical artifacts."
+    },
+    {
+        "title": "Tripura State Museum",
+        "state": "Tripura",
+        "location": "Agartala",
+        "image": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/11/5c/de/4a/img-20171031-120412306.jpg?w=1200&h=1200&s=1",
+        "price": "₹120",
+        "description": "Royal palace museum displaying Tripura's cultural heritage and artifacts."
+    },
+    {
+        "title": "State Museum, Lucknow",
         "state": "Uttar Pradesh",
         "location": "Lucknow",
-        "image": "https://static.toiimg.com/photo/47958891.cms",
-        "price": "₹135",
-        "description": "Houses rare collections of ancient sculptures, coins, and manuscripts"
+        "image": "https://media1.thrillophilia.com/filestore/al775ep8z67g5wei2nvplcoktit5_1599202387_shutterstock_1528337819.jpg",
+        "price": "₹110",
+        "description": "Museum with diverse collection of sculptures, art and historic artifacts."
     },
     {
-        "title": "Patna Museum",
-        "state": "Bihar",
-        "location": "Patna",
-        "image": "https://upload.wikimedia.org/wikipedia/commons/2/21/Patna_Museum_-_General_View_%289221515542%29.jpg",
+        "title": "Soham Heritage and Art Centre",
+        "state": "Uttarakhand",
+        "location": "Mussoorie",
+        "image": "https://mussoorietourism.co.in/images/places-to-visit/header/soham-heritage-art-center-mussoorie-tourism-entry-fee-timings-holidays-reviews-header.jpg",
+        "price": "₹150",
+        "description": "Museum displaying Uttarakhand's art & culture through traditional exhibits."
+    },
+    {
+        "title": "Indian Museum",
+        "state": "West Bengal",
+        "location": "Kolkata",
+        "image": "https://miro.medium.com/v2/resize:fit:864/1*gHx_YkInvMk9aKfvLBpf1Q.jpeg",
+        "price": "₹150",
+        "description": "India's oldest museum with vast collections of archaeology and history."
+    },
+    {
+        "title": "Kalapani Museum",
+        "state": "Andaman and Nicobar",
+        "location": "Port Blair",
+        "image": "https://www.abhijna-emuseum.com/wp-content/uploads/2018/03/IMG_20171126_145335_HDR.jpg",
+        "price": "₹150",
+        "description": "Freedom struggle museum featuring history of Cellular Jail & its prisoners."
+
+    },
+    {
+        "title": "State Museum, Chandigarh",
+        "state": "Chandigarh",
+        "location": "Chandigarh",
+        "image": "https://chdmuseum.gov.in/images/govt-museum-and-art-gallery.jpg",
+        "price": "₹110",
+        "description": "Museum with Gandhara sculptures, Pahari paintings & contemporary Indian art."
+    },
+    {
+        "title": "Diu Museum",
+        "state": "Dadra and Nagar Haveli",
+        "location": "Diu",
+        "image": "https://s7ap1.scene7.com/is/image/incredibleindia/2-diu-museum-diu-attr-hero?qlt=82&ts=1726737959703",
+        "price": "₹120",
+        "description": "Museum in old church showing Portuguese artifacts and religious items."
+    },
+    {
+        "title": "Marine Museum",
+        "state": "Lakshadweep",
+        "location": "Kavaratti",
+        "image": "https://viacation.com/wp-content/uploads/2024/12/marine-1.webp",
         "price": "₹130",
-        "description": "Notable for its collection of archaeological artifacts and Buddhist sculptures"
+        "description": "Museum displaying marine life, sea shells & coral exhibits of Lakshadweep."
     },
     {
-        "title": "State Archaeological Museum",
-        "state": "Madhya Pradesh",
-        "location": "Bhopal",
-        "image": "https://www.hoteldekho.com/storage/img/tourattraction/1646726502Museums-of-Bhopal-.jpg",
-        "price": "₹145",
-        "description": "Features prehistoric tools, temple sculptures, and tribal artifacts"
+        "title": "National Museum",
+        "state": "Delhi",
+        "location": "New Delhi",
+        "image": "https://media1.thrillophilia.com/filestore/b7r3uledumojabl5lusddtt4i8x3_1575546324_shutterstock_601141364.jpg?w=400&dpr=2",
+        "price": "₹150",
+        "description": "India's premier museum with vast collections of artifacts & cultural heritage."
     },
     {
-        "title": "Archaeological Museum",
-        "state": "Goa",
-        "location": "Panaji",
-        "image": "https://goa-tourism.org.in/images/places-to-visit/headers/archives-museum-goa-header-goa-tourism.jpg.jpg",
-        "price": "₹135",
-        "description": "Preserves Portuguese colonial and pre-colonial artifacts of Goan history"
+        "title": "Pondicherry Museum",
+        "state": "Puducherry",
+        "location": "Puducherry",
+        "image": "https://media1.thrillophilia.com/filestore/lopitvmuzrpphq20c341a80xu5ud_EGLISE_2BDE_2BNOTRE_2BDAME_2BDES_2BANGES_2BChurch.jpeg?w=400&dpr=2",
+        "price": "₹150",
+        "description": "Museum showing French colonial artifacts, sculptures & archaeological finds."
     },
     {
-        "title": "Calico Museum of Textiles",
-        "state": "Gujarat",
-        "location": "Ahmedabad",
-        "image": "https://ahmedabadtourism.in/images/tourist-places/calico-museum-of-textiles-ahmedabad/calico-museum-of-textiles-ahmedabad-tourism-entry-fee.jpg",
-        "price": "₹140",
-        "description": "World-renowned museum showcasing India's rich textile heritage"
-    }
+        "title": "Sri Pratap Singh Museum",
+        "state": "Jammu and Kashmir",
+        "location": "Srinagar",
+        "image": "https://www.paperjewels.org/sites/default/files/slides/pratap-singh-museum_0.jpg",
+        "price": "₹120",
+        "description": "Museum displaying J&K's historic artifacts, coins & cultural heritage."
+    },
+    {
+        "title": "Ladakh Heritage Museum",
+        "state": "Ladakh",
+        "location": "Leh",
+        "image": "https://i0.wp.com/www.allgudthings.com/wp-content/uploads/2017/12/IMG_8295.jpg?resize=1024%2C576&ssl=1",
+        "price": "₹130",
+        "description": "Museum showcasing Ladakh's history, Buddhist artifacts & traditional culture."
+    }                
 ]

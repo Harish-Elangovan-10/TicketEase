@@ -7,7 +7,7 @@ node_modules
 .wrangler
 /.svelte-kit
 /build
-E:\Svelte Projects\TicketEase\src\firebase.ts
+/src/firebase.ts
 
 # OS
 .DS_Store
