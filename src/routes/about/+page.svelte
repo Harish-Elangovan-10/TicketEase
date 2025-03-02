@@ -1,8 +1,7 @@
 <script lang="ts">
     import { user } from '$lib/auth';
     import { handleHome, handleMuseums, handleSignIn, handleSignOut, handleSignUp } from '$lib/handleRouting';
-    import LoadingAnimation from '$lib/loadingAnimation.svelte';
-    import { isPageLoading, stopLoading } from '$lib/pageLoading';
+    import { stopLoading } from '$lib/pageLoading';
     import { Ticket, Shield, Globe, Zap, Phone, Mail, MapPin } from 'lucide-svelte';
     import { onMount } from 'svelte';
 

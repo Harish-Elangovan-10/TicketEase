@@ -2,8 +2,7 @@
 	import { Mail, Lock, Eye, EyeClosed, User } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { signUp, signInWithGoogle } from '$lib/auth';
-    import { isPageLoading, startLoading, stopLoading } from '$lib/pageLoading';
-    import LoadingAnimation from '$lib/loadingAnimation.svelte';
+    import { startLoading, stopLoading } from '$lib/pageLoading';
 
 	let email = $state('');
 	let password = $state('');

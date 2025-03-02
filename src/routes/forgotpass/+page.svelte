@@ -1,8 +1,7 @@
 <script lang="ts">
     import { resetPassword } from "$lib/auth";
     import { handleSignIn } from "$lib/handleRouting";
-    import LoadingAnimation from "$lib/loadingAnimation.svelte";
-    import { isPageLoading, startLoading, stopLoading } from "$lib/pageLoading";
+    import { startLoading, stopLoading } from "$lib/pageLoading";
     import { Mail } from "lucide-svelte";
     import { onMount } from "svelte";
     

@@ -1,8 +1,7 @@
 <script lang="ts">
     import { user } from "$lib/auth";
     import { handleAboutUs, handleHome, handleMuseums, handleSignIn, handleSignOut, handleSignUp } from "$lib/handleRouting";
-    import LoadingAnimation from "$lib/loadingAnimation.svelte";
-    import { isPageLoading, stopLoading } from "$lib/pageLoading";
+    import { stopLoading } from "$lib/pageLoading";
     import { Accessibility, AudioLines, Binoculars, Boxes, Coffee, ContactRound, GalleryVerticalEnd, Image, MapPin, ShoppingBag, Star, SwatchBook, Theater, Wifi } from "lucide-svelte";
     import { onMount } from "svelte";
     import museums from "$lib/museums.json";

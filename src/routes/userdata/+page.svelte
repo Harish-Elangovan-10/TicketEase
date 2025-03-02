@@ -9,10 +9,9 @@
         MapPin
     } from "lucide-svelte";
     import type { UserProfile } from "$lib/types";
-    import { isPageLoading, startLoading, stopLoading } from "$lib/pageLoading";
+    import { startLoading, stopLoading } from "$lib/pageLoading";
     import { updateUserProfile, user } from "$lib/auth";
     import { onMount } from "svelte";
-    import LoadingAnimation from "$lib/loadingAnimation.svelte";
 
     onMount(() => {
         stopLoading();

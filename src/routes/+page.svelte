@@ -1,7 +1,6 @@
 <script lang="ts">
     import { user } from "$lib/auth";
-    import LoadingAnimation from "$lib/loadingAnimation.svelte";
-    import { isPageLoading, startLoading, stopLoading } from "$lib/pageLoading";
+    import { stopLoading } from "$lib/pageLoading";
     import { handleMuseums, handleSignIn, handleSignUp, handleSignOut, handleAboutUs } from "$lib/handleRouting";
     import { Building2, Globe, Users, MapPin } from "lucide-svelte";
     import { onMount } from "svelte";

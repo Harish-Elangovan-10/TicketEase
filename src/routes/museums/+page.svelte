@@ -3,8 +3,7 @@
     import { onMount } from "svelte";
     import { user } from "$lib/auth";
     import museums from "$lib/museums.json";
-    import LoadingAnimation from "$lib/loadingAnimation.svelte";
-    import { isPageLoading, stopLoading } from "$lib/pageLoading";
+    import { stopLoading } from "$lib/pageLoading";
     import { handleHome, handleSignIn, handleSignOut, handleSignUp } from "$lib/handleRouting";
 
     onMount(() => {

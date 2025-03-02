@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { Mail, Lock, Eye, EyeClosed } from 'lucide-svelte';
-	import LoadingAnimation from '$lib/loadingAnimation.svelte';
-	import { isPageLoading, startLoading, stopLoading } from '$lib/pageLoading';
+	import { startLoading, stopLoading } from '$lib/pageLoading';
 	import { onMount } from 'svelte';
 	import { signIn, signInWithGoogle } from '$lib/auth';
 
