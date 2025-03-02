@@ -1,59 +1,42 @@
 <script lang="ts">
     import { user } from "$lib/auth";
-    import { handleAboutUs, handleHome, handleMuseums, handleSignIn, handleSignOut, handleSignUp } from "$lib/handleRouting";
+    import { handleAboutUs, handleHome, handleMuseums, handleMuseumView, handleSignIn, handleSignOut, handleSignUp } from "$lib/handleRouting";
     import { stopLoading } from "$lib/pageLoading";
     import { Accessibility, AudioLines, Binoculars, Boxes, Coffee, ContactRound, GalleryVerticalEnd, Image, MapPin, ShoppingBag, Star, SwatchBook, Theater, Wifi } from "lucide-svelte";
-    import { onMount } from "svelte";
-    import museums from "$lib/museums.json";
+    import { onDestroy, onMount } from "svelte";
+    import { fetchMuseums, museums, type Museum } from "$lib/accessData";
+
+    export let data: { museum: Museum | null };
+    let museumData: Museum[] | null = null;
+    let unsubscribe: () => void;
+    let museum = data.museum;
 
     onMount(() => {
         stopLoading();
+        fetchMuseums();
+        unsubscribe = museums.subscribe((data) => {
+            museumData = data;
+        });
     });
-    
-    const museum = {
-        id: 14,
-        title: "Chhatrapati Shivaji Museum",
-        state: "Maharashtra",
-        location: "Mumbai",
-        address: "159-161, Mahatma Gandhi Road, Kala Ghoda, Fort, Mumbai, Maharashtra 400001",
-        shortNote: "Premier museum with art and artifacts housed in an Indo-Saracenic building.",
-        image: "https://s7ap1.scene7.com/is/image/incredibleindia/1-chatrapati-shivaji-maharaj-vastu-sangrahalaya-or-prince-of-wales-museum-mumbai-maharashtra-attr-hero?qlt=82&ts=1727355300214",
-        gallery: [
-            "https://s7ap1.scene7.com/is/image/incredibleindia/1-chatrapati-shivaji-maharaj-vastu-sangrahalaya-or-prince-of-wales-museum-mumbai-maharashtra-attr-hero?qlt=82&ts=1727355300214",
-            "https://tripxl.com/blog/wp-content/uploads/2025/01/Chhatrapati-Shivaji-Maharaj-Museum-Aurangabad-Cover-Photo-840x425.jpg",
-            "https://media.assettype.com/outlooktraveller%2Fimport%2Fpublic%2Fuploads%2Ffilemanager%2Fimages%2Fmuseum.jpg"
-        ],
-        description: "Welcome to the majestic Chhatrapati Shivaji Museum, a cultural landmark situated in the heart of Mumbai. This iconic institution, housed in an Indo-Saracenic architectural masterpiece, showcases over 50,000 artifacts spanning ancient Indian history to contemporary art. Originally established in the early 20th century, the museum stands as a testament to India's rich cultural heritage and artistic excellence. Visitors can explore diverse collections spread across multiple galleries, including rare sculptures from the Mauryan period, exquisite decorative arts from the Mughal era, ancient textiles that tell stories of India's craft traditions, and archaeological treasures that date back several millennia. The Natural History section features fascinating exhibits of local flora and fauna, while the Asian Art section showcases masterpieces from across the continent. The museum offers expert-guided tours, interactive multimedia exhibits, and regularly hosts special exhibitions that bring India's vibrant cultural heritage to life. With its blend of historical significance, architectural grandeur, and educational value, it remains a must-visit destination for history enthusiasts, art lovers, and curious minds from around the world.",
-        price: 185,
-        rating: 4.6,
-        exhibitCount: "50K+",
-        contact: "info@csmvs.in | 022 6958 4400",
-        reviews: [
-            { name: "Priya Sharma", rating: 5, date: "January 15, 2025", comment: "An absolutely breathtaking collection of artifacts! The guided tour was very informative and engaging. I particularly enjoyed the ancient sculpture gallery." },
-            { name: "Rajesh Kumar", rating: 4, date: "December 5, 2024", comment: "Great museum with an impressive collection. The staff was very helpful. However, it gets quite crowded on weekends, so I recommend visiting on weekdays." },
-            { name: "Ananya Patel", rating: 5, date: "November 28, 2024", comment: "A must-visit for anyone interested in Indian history and culture. The special exhibition on textile traditions was fascinating." },
-            { name: "Amit Verma", rating: 4, date: "November 15, 2024", comment: "Beautiful architecture and well-curated exhibits. The audio guide added great value to the experience." },
-            { name: "Sarah Johnson", rating: 5, date: "October 30, 2024", comment: "Absolutely stunning collection! The museum staff was incredibly knowledgeable and friendly. Will definitely return." },
-            { name: "Meera Reddy", rating: 4, date: "October 12, 2024", comment: "The cultural artifacts were fascinating. Great for history lovers, though some sections could use better lighting." },
-            { name: "David Chen", rating: 5, date: "October 5, 2024", comment: "Exceptional museum experience! The textile exhibition was particularly impressive. Worth every penny." },
-            { name: "Ravi Gupta", rating: 4, date: "September 28, 2024", comment: "Great collection of historical artifacts. The guided tour was very informative. Could improve the cafeteria though." },
-            { name: "Lisa Wong", rating: 5, date: "September 15, 2024", comment: "One of the best museums I've visited in India. The interactive displays were engaging and educational." },
-            { name: "Deepak Singh", rating: 4, date: "September 8, 2024", comment: "Rich cultural heritage on display. The ancient sculpture section was remarkable. Parking could be better organized." }
-        ],
-    };
+
+    onDestroy(() => {
+        if(unsubscribe) unsubscribe();
+    });
   
-    const similarMuseums = [
-        (museum.id + 8) % 36,
-        (museum.id + 16) % 36,
-        (museum.id + 24) % 36,
-        (museum.id + 32) % 36,
-    ];
+    const similarMuseums = museum ? [
+        (museum.id + 1) % 5, // (museum.id + 8) % 36,
+        (museum.id + 2) % 5, // (museum.id + 16) % 36,
+        (museum.id + 3) % 5, // (museum.id + 24) % 36,
+        (museum.id + 4) % 5, // (museum.id + 32) % 36,
+    ] : [];
 
     const tickets = [
         { type: "Standard", cost: 0 },
         { type: "Premium", cost: 100 },
         { type: "Elite", cost: 300 },
     ];
+
+    let gallery = museum?.gallery ?? [];
 
     const overviews = [
         {
@@ -94,12 +77,14 @@
             { icon: Wifi, title: "Free Wi-Fi", description: "High-speed wireless internet access available at no cost throughout the building." },
     ];
 
-    let mainImage = museum.image;
+    let mainImage = museum ? museum.image : "";
     let activeTab = 0;
-    let reviewCount = museum.reviews.length > 3 ? 3 : museum.reviews.length;
+    let basePrice = museum?.price ?? 0;
+    let reviewLength = museum?.reviews.length ?? 0;
+    let reviewCount = reviewLength > 3 ? 3 : reviewLength;
 
     const loadMoreReviews = () => {
-        if(reviewCount + 3 > museum.reviews.length) reviewCount = museum.reviews.length;
+        if(reviewCount + 3 > reviewLength) reviewCount = reviewLength;
         else reviewCount += 3;
     }
 
@@ -171,23 +156,23 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mt-8">
             <div class="h-fit md:col-span-1 p-7 rounded-xl bg-gradient-to-br from-gray-900 to-black border-[2px] border-gray-800">
                 <h1 class="w-fit text-3xl font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
-                    {museum.title}
+                    {museum?.title}
                 </h1>
                 <div class="flex items-start justify-start gap-3 mt-5">
                     <MapPin class="h-7 w-7 text-emerald-500" />
-                    <p class="text-base">{museum.address}</p>
+                    <p class="text-base">{museum?.address}</p>
                 </div>
                 <div class="flex items-center justify-start gap-3 mt-5">
                     <Star class="h-5 w-5 text-emerald-500" />
-                    <p class="text-base">{museum.rating} Star rating</p>
+                    <p class="text-base">{museum?.rating} Star rating</p>
                 </div>
                 <div class="flex items-center justify-start gap-3 mt-5">
                     <SwatchBook class="h-5 w-5 text-emerald-500" />
-                    <p class="text-base">{museum.exhibitCount} exhibits on display</p>
+                    <p class="text-base">{museum?.exhibitCount} exhibits on display</p>
                 </div>
                 <div class="flex items-center justify-start gap-3 mt-5">
                     <ContactRound class="h-5 w-5 text-emerald-500" />
-                    <p class="text-base">{museum.contact}</p>
+                    <p class="text-base">{museum?.contact}</p>
                 </div>
                 
                 <div class="border-t-[2px] border-gray-800 mt-6 mb-4"></div>
@@ -206,7 +191,7 @@
                                 { ticket.type }
                             </p>
                             <p class="text-lg bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent font-bold">
-                                ₹{ museum.price + ticket.cost }
+                                ₹{ basePrice + ticket.cost }
                             </p>
                         </div>
                     {/each}
@@ -227,12 +212,12 @@
                 <div class="w-full h-[45vh] rounded-xl overflow-hidden">
                     <img 
                       src={mainImage} 
-                      alt={museum.title}
+                      alt={museum?.title}
                       class="h-full w-full object-cover"
                     />
                 </div>
                 <div class="grid grid-cols-3 gap-4">
-                    {#each museum.gallery as img, index}
+                    {#each gallery as img, index}
                         <button 
                             class="h-[17vh] rounded-lg overflow-hidden"
                             onclick={() => mainImage = img}
@@ -268,7 +253,7 @@
         {#if activeTab === 0}
             <div class="space-y-10">
                 <p class="text-white/90 leading-relaxed">
-                    {museum.description}
+                    {museum?.description}
                 </p>
 
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -318,10 +303,10 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
                         {#each Array(5) as _, i}
-                            <Star class={`h-5 w-5 mr-0.5 ${i < Math.floor(museum.rating) ? 'text-lime-500' : 'text-gray-700'}`} />
+                            <Star class={`h-5 w-5 mr-0.5 ${i < Math.floor(museum?.rating ?? 0) ? 'text-lime-500' : 'text-gray-700'}`} />
                         {/each}
                         <p class="text-lg ml-2.5 font-semibold text-white/90">
-                            {museum.rating} out of 5
+                            {museum?.rating} out of 5
                         </p>
                     </div>
                     <button 
@@ -334,22 +319,22 @@
                 {#each Array(reviewCount) as _, index}
                     <div class="bg-gradient-to-br from-gray-900 to-black border-[2px] border-gray-800 rounded-lg px-6 py-4 space-y-3">
                         <h1 class="text-lg text-white/90 font-semibold">
-                            {museum.reviews[index].name}
+                            {museum?.reviews[index].name}
                         </h1>
                         <div class="flex items-center pb-1">
                             {#each Array(5) as _, i}
-                                <Star class={`h-5 w-5 mr-0.5 ${i < Math.floor(museum.reviews[index].rating) ? 'text-lime-500' : 'text-gray-700'}`} />
+                                <Star class={`h-5 w-5 mr-0.5 ${i < Math.floor(museum?.reviews[index].rating ?? 0) ? 'text-lime-500' : 'text-gray-700'}`} />
                             {/each}
                             <p class="text-base ml-3">
-                                {museum.reviews[index].date}
+                                {museum?.reviews[index].date}
                             </p>
                         </div>
                         <p class="text-white/90 pb-2">
-                            {museum.reviews[index].comment}
+                            {museum?.reviews[index].comment}
                         </p>
                     </div>
                 {/each}
-                {#if reviewCount < museum.reviews.length}                    
+                {#if reviewCount < reviewLength}                    
                     <button 
                         class="self-center w-fit px-4 py-2 rounded-lg border-[1.5px] border-gray-400 hover:bg-white hover:text-black 
                         focus:bg-white/75 focus:text-black transition-all duration-200"
@@ -358,7 +343,7 @@
                         Load More
                     </button>
                 {:else}
-                    {#if museum.reviews.length > 3}
+                    {#if reviewLength > 3}
                         <button 
                             class="self-center w-fit px-4 py-2 rounded-lg border-[1.5px] border-gray-400 hover:bg-white hover:text-black 
                             focus:bg-white/75 focus:text-black transition-all duration-200"
@@ -385,45 +370,50 @@
                 </button>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
-                {#each similarMuseums as index}
-                    <div class="bg-gradient-to-br from-gray-900 to-black rounded-xl border-[1.5px] border-gray-800">
-                        <div class="h-48">
-                            <img 
-                                src={museums[index].image} 
-                                alt={museums[index].title}
-                                class="h-full w-full object-cover rounded-t-xl"
-                            />
-                        </div>
-                        <div class="p-6 flex flex-col">
-                            <h3 class="text-xl font-bold text-white/90 mb-4">
-                                {museums[index].title}
-                            </h3>
-                            <div class="flex items-center gap-2 mb-4">
-                                <MapPin class="h-5 w-5 text-emerald-500" />
-                                <span class="text-md">
-                                    {museums[index].location}, {museums[index].state}
-                                </span>
+                {#if museumData}
+                    {#each similarMuseums as index}
+                        <div class="bg-gradient-to-br from-gray-900 to-black rounded-xl border-[1.5px] border-gray-800">
+                            <div class="h-48">
+                                <img 
+                                    src={museumData[index].image} 
+                                    alt={museumData[index].title}
+                                    class="h-full w-full object-cover rounded-t-xl"
+                                />
                             </div>
-                            <p class="text-md text-gray-300 mb-6">
-                                {museums[index].description}
-                            </p>
-                            <div class="flex items-center justify-between">
-                                <span class="flex items-center justify-start gap-1.5 text-md text-gray-400">
-                                    <p>
-                                        Starts from
-                                    </p>
-                                    <span class="bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent font-bold text-lg">
-                                        {museums[index].price}
+                            <div class="p-6 flex flex-col">
+                                <h3 class="text-xl font-bold text-white/90 mb-4">
+                                    {museumData[index].title}
+                                </h3>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <MapPin class="h-5 w-5 text-emerald-500" />
+                                    <span class="text-md">
+                                        {museumData[index].location}, {museumData[index].state}
                                     </span>
-                                </span>
-                                <button class="px-4 py-2 rounded-lg bg-gradient-to-br from-lime-500 to-emerald-500 hover:from-lime-600 hover:to-emerald-600
-                                text-black focus:from-teal-500 focus:to-green-500 transition-all duration-200">
-                                    Visit Now
-                                </button>
+                                </div>
+                                <p class="text-md text-gray-300 mb-6">
+                                    {museumData[index].subtitle}
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <span class="flex items-center justify-start gap-1.5 text-md text-gray-400">
+                                        <p>
+                                            Starts from
+                                        </p>
+                                        <span class="bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent font-bold text-lg">
+                                            ₹{museumData[index].price}
+                                        </span>
+                                    </span>
+                                    <button 
+                                        class="px-4 py-2 rounded-lg bg-gradient-to-br from-lime-500 to-emerald-500 hover:from-lime-600 hover:to-emerald-600
+                                        text-black focus:from-teal-500 focus:to-green-500 transition-all duration-200"
+                                        onclick={() => handleMuseumView(museumData ? museumData[index].id?.toString() : '0')}
+                                    >
+                                        Visit Now
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                {/each}
+                    {/each}
+                {/if}
             </div>
         </div>
 
