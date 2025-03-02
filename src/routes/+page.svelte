@@ -1,16 +1,29 @@
 <script lang="ts">
     import { user } from "$lib/auth";
     import { stopLoading } from "$lib/pageLoading";
-    import { handleMuseums, handleSignIn, handleSignUp, handleSignOut, handleAboutUs } from "$lib/handleRouting";
+    import { handleMuseums, handleSignIn, handleSignUp, handleSignOut, handleAboutUs, handleMuseumView } from "$lib/handleRouting";
     import { Building2, Globe, Users, MapPin } from "lucide-svelte";
-    import { onMount } from "svelte";
-    import museums from "$lib/museums.json"
+    import { onDestroy, onMount } from "svelte";
+    import { fetchMuseums, museums, type Museum } from "$lib/accessData";
+    import LoadingAnimation from "$lib/loadingAnimation.svelte";
+
+    let museumData: Museum[] | null = null;
+    let unsubscribe: () => void;
 
     onMount(() => {
         stopLoading();
+        fetchMuseums();
+        unsubscribe = museums.subscribe((data) => {
+            museumData = data;
+        });
     });
 
-    const featuredMuseums = [13, 20, 35, 22, 11, 0, 28, 6];
+    onDestroy(() => {
+        if(unsubscribe) unsubscribe();
+    });
+
+    // const featuredMuseums = [13, 20, 35, 22, 11, 0, 28, 6];
+    const featuredMuseums = [4, 2, 0, 1, 3];
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black text-gray-400">
@@ -107,45 +120,54 @@
                 </button>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
-                {#each featuredMuseums as index}
-                    <div class="bg-gradient-to-br from-gray-900 to-black rounded-xl border-[1.5px] border-gray-800">
-                        <div class="h-48">
-                            <img 
-                                src={museums[index].image} 
-                                alt={museums[index].title}
-                                class="h-full w-full object-cover rounded-t-xl"
-                            />
-                        </div>
-                        <div class="p-6 flex flex-col">
-                            <h3 class="text-xl font-bold text-white/90 mb-4">
-                                {museums[index].title}
-                            </h3>
-                            <div class="flex items-center gap-2 mb-4">
-                                <MapPin class="h-5 w-5 text-emerald-500" />
-                                <span class="text-md">
-                                    {museums[index].location}, {museums[index].state}
-                                </span>
+                {#if museumData}
+                    {#each featuredMuseums as index}
+                        <div class="bg-gradient-to-br from-gray-900 to-black rounded-xl border-[1.5px] border-gray-800">
+                            <div class="h-48">
+                                <img 
+                                    src={museumData[index].image} 
+                                    alt={museumData[index].title}
+                                    class="h-full w-full object-cover rounded-t-xl"
+                                />
                             </div>
-                            <p class="text-md text-gray-300 mb-6">
-                                {museums[index].description}
-                            </p>
-                            <div class="flex items-center justify-between">
-                                <span class="flex items-center justify-start gap-1.5 text-md text-gray-400">
-                                    <p>
-                                        Starts from
-                                    </p>
-                                    <span class="bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent font-bold text-lg">
-                                        ₹{museums[index].price}
+                            <div class="p-6 flex flex-col">
+                                <h3 class="text-xl font-bold text-white/90 mb-4">
+                                    {museumData[index].title}
+                                </h3>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <MapPin class="h-5 w-5 text-emerald-500" />
+                                    <span class="text-md">
+                                        {museumData[index].location}, {museumData[index].state}
                                     </span>
-                                </span>
-                                <button class="px-4 py-2 rounded-lg bg-gradient-to-br from-lime-500 to-emerald-500 hover:from-lime-600 hover:to-emerald-600
-                                text-black focus:from-teal-500 focus:to-green-500 transition-all duration-200">
-                                    Visit Now
-                                </button>
+                                </div>
+                                <p class="text-md text-gray-300 mb-6">
+                                    {museumData[index].subtitle}
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <span class="flex items-center justify-start gap-1.5 text-md text-gray-400">
+                                        <p>
+                                            Starts from
+                                        </p>
+                                        <span class="bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent font-bold text-lg">
+                                            ₹{museumData[index].price}
+                                        </span>
+                                    </span>
+                                    <button 
+                                        class="px-4 py-2 rounded-lg bg-gradient-to-br from-lime-500 to-emerald-500 hover:from-lime-600 hover:to-emerald-600
+                                        text-black focus:from-teal-500 focus:to-green-500 transition-all duration-200"
+                                        onclick={() => handleMuseumView(museumData ? museumData[index].id.toString() : '0')}
+                                    >
+                                        Visit Now
+                                    </button>
+                                </div>
                             </div>
                         </div>
+                    {/each}
+                {:else}
+                    <div class="col-span-full h-96 w-full flex items-center justify-center">
+                        <LoadingAnimation />
                     </div>
-                {/each}
+                {/if}
             </div>
         </div>
     </div>
