@@ -1,27 +1,39 @@
 <script lang="ts">
     import { MapPin, Search } from "lucide-svelte";
-    import { onMount } from "svelte";
+    import { onDestroy, onMount } from "svelte";
     import { user } from "$lib/auth";
-    import museums from "$lib/museums.json";
     import { stopLoading } from "$lib/pageLoading";
-    import { handleHome, handleSignIn, handleSignOut, handleSignUp } from "$lib/handleRouting";
+    import { handleHome, handleMuseumView, handleSignIn, handleSignOut, handleSignUp } from "$lib/handleRouting";
+    import { fetchMuseums, museums, type Museum } from "$lib/accessData";
+    import LoadingAnimation from "$lib/loadingAnimation.svelte";
+
+    let museumData: Museum[] | null = null;
+    let unsubscribe: () => void;
 
     onMount(() => {
         stopLoading();
+        fetchMuseums();
+        unsubscribe = museums.subscribe((data) => {
+            museumData = data;
+        });
+    });
+
+    onDestroy(() => {
+        if(unsubscribe) unsubscribe();
     });
 
     let searchQuery = "";
     let selectedState = "all";
 
-    $: states = [...new Set(museums.map(museum => museum.state))].sort();
-    $: sortedMuseums = museums.filter(museum => {
+    $: states = museumData ? [...new Set(museumData.map(museum => museum.state))].sort() : [];
+    $: sortedMuseums = museumData ? museumData.filter(museum => {
         const matchesSearch = museum.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                             museum.location.toLowerCase().includes(searchQuery.toLowerCase()) || 
                             museum.state.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesState = selectedState === "all" || museum.state === selectedState;
         
         return matchesSearch && matchesState;
-    });
+    }) : [];
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black text-gray-400">
@@ -112,45 +124,54 @@
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
-                {#each sortedMuseums as museum}
-                    <div class="bg-gradient-to-br from-gray-900 to-black rounded-xl border-[1.5px] border-gray-800">
-                        <div class="h-48">
-                            <img 
-                                src={museum.image} 
-                                alt={museum.title}
-                                class="h-full w-full object-cover rounded-t-xl"
-                            />
-                        </div>
-                        <div class="p-6 flex flex-col">
-                            <h3 class="text-xl font-bold text-white/90 mb-4">
-                                {museum.title}
-                            </h3>
-                            <div class="flex items-center gap-2 mb-4">
-                                <MapPin class="h-5 w-5 text-emerald-500" />
-                                <span class="text-md">
-                                    {museum.location}, {museum.state}
-                                </span>
+                {#if museumData}
+                    {#each sortedMuseums as museum}
+                        <div class="bg-gradient-to-br from-gray-900 to-black rounded-xl border-[1.5px] border-gray-800">
+                            <div class="h-48">
+                                <img 
+                                    src={museum.image} 
+                                    alt={museum.title}
+                                    class="h-full w-full object-cover rounded-t-xl"
+                                />
                             </div>
-                            <p class="text-md text-gray-300 mb-6">
-                                {museum.description}
-                            </p>
-                            <div class="flex items-center justify-between">
-                                <span class="flex items-center justify-start gap-1.5 text-md text-gray-400">
-                                    <p>
-                                        Starts from
-                                    </p>
-                                    <span class="bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent font-bold text-lg">
-                                        {museum.price}
+                            <div class="p-6 flex flex-col">
+                                <h3 class="text-xl font-bold text-white/90 mb-4">
+                                    {museum.title}
+                                </h3>
+                                <div class="flex items-center gap-2 mb-4">
+                                    <MapPin class="h-5 w-5 text-emerald-500" />
+                                    <span class="text-md">
+                                        {museum.location}, {museum.state}
                                     </span>
-                                </span>
-                                <button class="px-4 py-2 rounded-lg bg-gradient-to-br from-lime-500 to-emerald-500 hover:from-lime-600 hover:to-emerald-600
-                                text-black focus:from-teal-500 focus:to-green-500 transition-all duration-200">
-                                    Visit Now
-                                </button>
+                                </div>
+                                <p class="text-md text-gray-300 mb-6">
+                                    {museum.subtitle}
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <span class="flex items-center justify-start gap-1.5 text-md text-gray-400">
+                                        <p>
+                                            Starts from
+                                        </p>
+                                        <span class="bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent font-bold text-lg">
+                                            ₹{museum.price}
+                                        </span>
+                                    </span>
+                                    <button 
+                                        class="px-4 py-2 rounded-lg bg-gradient-to-br from-lime-500 to-emerald-500 hover:from-lime-600 hover:to-emerald-600
+                                        text-black focus:from-teal-500 focus:to-green-500 transition-all duration-200"
+                                        onclick={() => handleMuseumView(museum.id?.toString())}
+                                    >
+                                        Visit Now
+                                    </button>
+                                </div>
                             </div>
                         </div>
+                    {/each}
+                {:else}
+                    <div class="col-span-full h-96 w-full flex items-center justify-center">
+                        <LoadingAnimation />
                     </div>
-                {/each}
+                {/if}
             </div>
 
             {#if sortedMuseums.length == 0}
