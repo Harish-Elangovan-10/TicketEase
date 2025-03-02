@@ -21,17 +21,15 @@ export interface Museum {
 
 export const museums = writable<Museum[] | null>(null);
 
-export const fetchMuseums = async () => {
-    try {
-        const querySnapshot = await getDocs(collection(db, "museums"));
-        const data: Museum[] = [];
-        querySnapshot.forEach((doc) => {
-            data.push(doc.data() as Museum);
-        });
-        museums.set(data);
-    } catch (error) {
-        console.error("Error fetching museums: ", error);
-    }
+export async function fetchMuseums() {
+    const querySnapshot = await getDocs(collection(db, "museums"));
+    const museumList: Museum[] = [];
+
+    querySnapshot.forEach((doc) => {
+        museumList.push(doc.data() as Museum );
+    });
+
+    museums.set(museumList);
 };
 
 export const addMuseums = async () => {
