@@ -11,6 +11,9 @@ import {
     GoogleAuthProvider,
     signInWithPopup,
     sendPasswordResetEmail,
+    reauthenticateWithCredential,
+    updatePassword,
+    EmailAuthProvider,
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import type { UserProfile } from "./types";
@@ -148,6 +151,23 @@ export const resetPassword = async (email: string) => {
     } catch (error: any) {
         console.error("Error sending password reset email:", error.message);
         return { success: false, message: error.message };
+    }
+};
+
+export const changePassword = async (currentPass: string, newPass: string) => {
+    const user = auth.currentUser;
+    if(!user || !user.email) {
+        return { success: false, message: "No user is currently signed in" }
+    }
+
+    try {
+        const credential = EmailAuthProvider.credential(user.email, currentPass);
+        await reauthenticateWithCredential(user, credential);
+        await updatePassword(user, newPass);
+        return { success:true, message: "Password updated successfully" }
+    } catch (error: any) {
+        console.error("Check your current password:", error.message);
+        return { success: false, message: "Check your current password" };
     }
 };
 
