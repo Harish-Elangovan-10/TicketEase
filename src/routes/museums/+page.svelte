@@ -168,13 +168,13 @@
                         </div>
                     {/each}
                 {:else}
-                    <div class="col-span-full h-96 w-full flex items-center justify-center">
+                    <div class="col-span-full h-[50vh] w-full flex items-center justify-center">
                         <LoadingAnimation />
                     </div>
                 {/if}
             </div>
 
-            {#if sortedMuseums.length == 0}
+            {#if sortedMuseums.length == 0 && museumData}
                 <div class="w-full h-[50vh] flex items-center justify-center">
                     <p class="text-xl text-gray-400">No museums found matching your search criteria.</p>
                 </div>

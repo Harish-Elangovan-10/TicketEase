@@ -124,18 +124,16 @@
     <div class="max-w-8xl mx-auto px-14 py-24">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-20">
             {#each features as feature}
-                <div class="bg-gradient-to-br from-gray-800 to-gray-800 hover:from-lime-500 hover:to-emerald-500 p-[2px] rounded-xl">
-                    <div class="bg-gradient-to-b from-gray-900 to-black rounded-xl p-8">
-                        <div class="bg-gradient-to-br from-lime-500 to-emerald-500 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
-                            <svelte:component this={feature.icon} class="w-6 h-6 text-black" />
-                        </div>
-                        <h2 class="text-lg font-semibold text text-white/85 mb-2">
-                            {feature.title}
-                        </h2>
-                        <p class="text-gray-400">
-                            {feature.description}
-                        </p>
+                <div class="bg-gradient-to-b from-gray-900 to-black rounded-xl p-8 border-[2px] border-gray-800">
+                    <div class="bg-gradient-to-br from-lime-500 to-emerald-500 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                        <svelte:component this={feature.icon} class="w-6 h-6 text-black" />
                     </div>
+                    <h2 class="text-lg font-semibold text text-white/85 mb-2">
+                        {feature.title}
+                    </h2>
+                    <p class="text-gray-400">
+                        {feature.description}
+                    </p>
                 </div>
             {/each}
         </div>
@@ -174,7 +172,7 @@
                 </p>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                     <div class="flex flex-col items-center space-y-2">
-                        <Phone class="text-green-500 h-8 w-8" />
+                        <Phone class="text-lime-500 h-8 w-8" />
                         <h3 class="text-white/90 font-medium">
                             Phone
                         </h3>
@@ -183,7 +181,7 @@
                         </p>
                     </div>
                     <div class="flex flex-col items-center space-y-2">
-                        <Mail class="text-green-500 h-8 w-8" />
+                        <Mail class="text-lime-500 h-8 w-8" />
                         <h3 class="text-white/90 font-medium">
                             Email
                         </h3>
@@ -192,7 +190,7 @@
                         </p>
                     </div>
                     <div class="flex flex-col items-center space-y-2">
-                        <MapPin class="text-green-500 h-8 w-8" />
+                        <MapPin class="text-lime-500 h-8 w-8" />
                         <h3 class="text-white/90 font-medium">
                             Address
                         </h3>
@@ -226,6 +224,9 @@
                 </button>                
             </div>
         </div>
-
     </div>
 </div>
+
+<svelte:head>
+    <title>About Us</title>
+</svelte:head>
