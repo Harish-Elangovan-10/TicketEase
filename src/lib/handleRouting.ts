@@ -1,14 +1,10 @@
 import { signOut } from "./auth";
 import { startLoading, stopLoading } from "./pageLoading";
-import { goto } from "$app/navigation";
 
 export const handleSignUp = () => {
     try {
         startLoading();
-        setTimeout(() => {
-            goto(`/signup`);
-            stopLoading();
-        }, 1500);
+        window.location.href = "/signup";
     } catch (error) {
         stopLoading();
         console.error("Failed to Sign Up: ", error);
@@ -18,10 +14,7 @@ export const handleSignUp = () => {
 export const handleSignIn = () => {
     try {
         startLoading();
-        setTimeout(() => {
-            goto(`/login`);
-            stopLoading();
-        }, 1500);
+        window.location.href = "/login";
     } catch (error) {
         stopLoading();
         console.error("Failed to Sign In: ", error);
@@ -32,10 +25,7 @@ export const handleSignOut = async () => {
     try {
         startLoading();
         await signOut();
-        setTimeout(() => {
-            goto(`/`);
-            stopLoading();
-        }, 1500);
+        window.location.href = "/";
     } catch (error) {
         console.error("Failed to Sign Out: ", error);
     }
@@ -44,10 +34,7 @@ export const handleSignOut = async () => {
 export const handleHome = () => {
     try {
         startLoading();
-        setTimeout(() => {
-            goto(`/`);
-            stopLoading();
-        }, 1500);
+        window.location.href = "/";
     } catch (error) {
         stopLoading();
         console.error("Failed to navigate to Home: ", error);
@@ -57,10 +44,7 @@ export const handleHome = () => {
 export const handleMuseums = () => {
     try {
         startLoading();
-        setTimeout(() => {
-            goto(`/museums`);
-            stopLoading();
-        }, 1500);
+        window.location.href = "/museums";
     } catch (error) {
         stopLoading();
         console.error("Failed to navigate to Museums: ", error);
@@ -70,10 +54,7 @@ export const handleMuseums = () => {
 export const handleAboutUs = () => {
     try {
         startLoading();
-        setTimeout(() => {
-            goto(`/about`);
-            stopLoading();
-        }, 1500);
+        window.location.href = "/about";
     } catch (error) {
         stopLoading();
         console.error("Failed to navigate to About Us: ", error);
@@ -83,12 +64,29 @@ export const handleAboutUs = () => {
 export const handleMuseumView = (id: string) => {
     try {
         startLoading();
-        setTimeout(() => {
-            goto(`/museumView/${id}`);
-            stopLoading();
-        }, 1500);
+        window.location.href = `/museumView/${id}`;
     } catch (error) {
         stopLoading();
         console.error("Failed to navaigate to selected Museum page: ",  error);
+    }
+};
+
+export const handleBookNow = (id: string) => {
+    try {
+        startLoading();
+        window.location.href = `/booknow/${id}`;
+    } catch (error) {
+        stopLoading();
+        console.error("Failed to navaigate to Booking page: ",  error);
+    }
+};
+
+export const handleDashboard = () => {
+    try {
+        startLoading();
+        window.location.href = "/dashboard";
+    } catch (error) {
+        stopLoading();
+        console.error("Failed to navigate to Dashboard: ", error);
     }
 };
