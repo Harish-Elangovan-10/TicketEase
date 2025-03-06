@@ -1,6 +1,6 @@
 <script lang="ts">
     import { user } from "$lib/auth";
-    import { handleAboutUs, handleHome, handleMuseums, handleMuseumView, handleSignIn, handleSignOut, handleSignUp } from "$lib/handleRouting";
+    import { handleAboutUs, handleBookNow, handleHome, handleMuseums, handleMuseumView, handleSignIn, handleSignOut, handleSignUp } from "$lib/handleRouting";
     import { stopLoading } from "$lib/pageLoading";
     import { Accessibility, AudioLines, Binoculars, Boxes, Coffee, ContactRound, GalleryVerticalEnd, Image, MapPin, ShoppingBag, Star, SwatchBook, Theater, Wifi } from "lucide-svelte";
     import { onDestroy, onMount } from "svelte";
@@ -62,19 +62,19 @@
     ];
 
     const exhibits = [
-            { icon: Boxes, title: "Ancient Artifacts Collection", description: "Rare artifacts dating back to the 3rd century BCE, showcasing the craftsmanship of ancient Indian civilizations." },
-            { icon: GalleryVerticalEnd, title: "Royal Gallery", description: "Exquisite collection of royal possessions including jewelry, weapons, and attire from various dynasties that ruled the region." },
-            { icon: Image, title: "Modern Art Pavilion", description: "Contemporary artwork from prominent Indian artists reflecting the cultural evolution of the country in modern times." },
-            { icon: Binoculars, title: "Archaeological Discoveries", description: "Fascinating archaeological finds from excavations across the state, providing insights into ancient everyday life." }
+        { icon: Boxes, title: "Ancient Artifacts Collection", description: "Rare artifacts dating back to the 3rd century BCE, showcasing the craftsmanship of ancient Indian civilizations." },
+        { icon: GalleryVerticalEnd, title: "Royal Gallery", description: "Exquisite collection of royal possessions including jewelry, weapons, and attire from various dynasties that ruled the region." },
+        { icon: Image, title: "Modern Art Pavilion", description: "Contemporary artwork from prominent Indian artists reflecting the cultural evolution of the country in modern times." },
+        { icon: Binoculars, title: "Archaeological Discoveries", description: "Fascinating archaeological finds from excavations across the state, providing insights into ancient everyday life." }
     ];
 
     const facilities = [
-            { icon: Coffee, title: "Café", description: "Enjoy diverse refreshments and local cuisine at our cozy café, perfect for a relaxing break." },
-            { icon: ShoppingBag, title: "Gift Shop", description: "Browse our unique collection of museum merchandise, including educational books and authentic replicas." },
-            { icon: AudioLines, title: "Audio Tours", description: "Multi-language audio guides offering in-depth insights into major exhibition pieces." },
-            { icon: Accessibility, title: "Accessibility", description: "Our venue offers complete wheelchair access, including convenient ramps, lifts, and adapted facilities." },
-            { icon: Theater, title: "Theater", description: "State-of-the-art theater showcasing informative documentaries about our museum collections all day long." },
-            { icon: Wifi, title: "Free Wi-Fi", description: "High-speed wireless internet access available at no cost throughout the building." },
+        { icon: Coffee, title: "Café", description: "Enjoy diverse refreshments and local cuisine at our cozy café, perfect for a relaxing break." },
+        { icon: ShoppingBag, title: "Gift Shop", description: "Browse our unique collection of museum merchandise, including educational books and authentic replicas." },
+        { icon: AudioLines, title: "Audio Tours", description: "Multi-language audio guides offering in-depth insights into major exhibition pieces." },
+        { icon: Accessibility, title: "Accessibility", description: "Our venue offers complete wheelchair access, including convenient ramps, lifts, and adapted facilities." },
+        { icon: Theater, title: "Theater", description: "State-of-the-art theater showcasing informative documentaries about our museum collections all day long." },
+        { icon: Wifi, title: "Free Wi-Fi", description: "High-speed wireless internet access available at no cost throughout the building." },
     ];
 
     let mainImage = museum ? museum.image : "";
@@ -159,8 +159,8 @@
                     {museum?.title}
                 </h1>
                 <div class="flex items-start justify-start gap-3 mt-5">
-                    <MapPin class="h-7 w-7 text-emerald-500" />
-                    <p class="text-base">{museum?.address}</p>
+                    <MapPin class="mt-0.5 h-5 w-5 text-emerald-500" />
+                    <div class="text-base max-w-96">{museum?.address}</div>
                 </div>
                 <div class="flex items-center justify-start gap-3 mt-5">
                     <Star class="h-5 w-5 text-emerald-500" />
@@ -203,6 +203,7 @@
                 <button 
 					class="w-full mt-2 py-4 px-6 rounded-lg font-semibold bg-gradient-to-r from-lime-400 to-emerald-400 
 					text-black hover:opacity-90 transition-opacity disabled:opacity-50"
+                    onclick={() => handleBookNow(museum ? museum.id.toString() : '0')}
 				>
 					Book your visit
             	</button>
@@ -258,14 +259,12 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                     {#each overviews as overview}
-                        <div class="bg-gradient-to-br from-gray-800 to-gray-800 hover:from-lime-500 hover:to-emerald-500 p-[2px] rounded-lg transition-colors duration-200">
-                            <div class="bg-gradient-to-br from-gray-900 to-black rounded-lg p-4">
-                                <h4 class="text-white/90 font-medium mb-3">{ overview.title }</h4>
-                                <ul class="list-disc marker:text-lime-500 list-inside">
-                                    <li class="text-sm mb-2">{ overview.subtitle }</li>
-                                    <li class="text-sm mb-1">{ overview.extras }</li>
-                                </ul>
-                            </div>
+                        <div class="bg-gradient-to-br from-gray-900 to-black rounded-lg p-4 border-[2px] border-gray-800">
+                            <h4 class="text-white/90 font-medium mb-3">{ overview.title }</h4>
+                            <ul class="list-disc marker:text-lime-500 list-inside">
+                                <li class="text-sm mb-2">{ overview.subtitle }</li>
+                                <li class="text-sm mb-1">{ overview.extras }</li>
+                            </ul>
                         </div>
                     {/each}
                 </div>
@@ -273,28 +272,24 @@
         {:else if activeTab === 1}
             <div class="grid grid-cols-2 gap-8">
                 {#each exhibits as exhibit}
-                    <div class="bg-gradient-to-br from-gray-800 to-gray-800 hover:from-lime-500 hover:to-emerald-500 p-[2px] rounded-lg transition-colors duration-200">
-                        <div class="h-full w-full bg-gradient-to-br from-gray-900 to-black rounded-lg py-5 px-6">
-                            <div class="flex items-center justify-start gap-5 mb-5">
-                                <svelte:component this={exhibit.icon} class="h-6 w-6 text-emerald-500" />
-                                <h4 class="text-white/90 text-xl font-bold">{ exhibit.title }</h4>
-                            </div>
-                            <p class="text-base mb-2">{ exhibit.description }</p>
+                    <div class="h-full w-full bg-gradient-to-br from-gray-900 to-black rounded-lg py-5 px-6 border-[2px] border-gray-800">
+                        <div class="flex items-center justify-start gap-5 mb-5">
+                            <svelte:component this={exhibit.icon} class="h-6 w-6 text-lime-500" />
+                            <h4 class="text-white/90 text-xl font-bold">{ exhibit.title }</h4>
                         </div>
+                        <p class="text-base mb-2">{ exhibit.description }</p>
                     </div>
                 {/each}
             </div>
         {:else if activeTab === 2}
             <div class="grid grid-cols-3 gap-8">
                 {#each facilities as facility}
-                    <div class="bg-gradient-to-br from-gray-800 to-gray-800 hover:from-lime-500 hover:to-emerald-500 p-[2px] rounded-lg transition-colors duration-200">
-                        <div class="h-full w-full bg-gradient-to-br from-gray-900 to-black rounded-lg py-5 px-6">
-                            <div class="flex items-center justify-start gap-5 mb-5">
-                                <svelte:component this={facility.icon} class="h-6 w-6 text-lime-500" />
-                                <h4 class="text-white/90 text-xl font-bold">{ facility.title }</h4>
-                            </div>
-                            <p class="text-base mb-2">{ facility.description }</p>
+                    <div class="h-full w-full bg-gradient-to-br from-gray-900 to-black rounded-lg py-5 px-6 border-[2px] border-gray-800">
+                        <div class="flex items-center justify-start gap-5 mb-5">
+                            <svelte:component this={facility.icon} class="h-6 w-6 text-lime-500" />
+                            <h4 class="text-white/90 text-xl font-bold">{ facility.title }</h4>
                         </div>
+                        <p class="text-base mb-2">{ facility.description }</p>
                     </div>
                 {/each}
             </div>
@@ -419,3 +414,7 @@
 
     </div>
 </div>
+
+<svelte:head>
+    <title>{museum?.title}</title>
+</svelte:head>
