@@ -60,14 +60,18 @@
         }
     };
 
-    const handleUpdate = () => {
+    const handleUpdate = async () => {
         try {
             startLoading();
-            updateUserProfile(userData);
-            window.location.href = "/";
+            const response = await updateUserProfile(userData);
+            if(response.success) {
+                window.location.href = "/";
+            } else {
+                throw new Error(response.message);
+            }
         } catch (error) {
             stopLoading();
-            console.error("Error navigating to Home: ", error);
+            console.error("Error Updating Profile: ", error);
         }
     };
 </script>
@@ -152,7 +156,7 @@
                 <input
                   type="text"
                   bind:value={userData.address.line1}
-                  class="block w-full pl-12 pr-4 py-3 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
+                  class="block w-full pl-12 pr-4 py-2.5 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
                           border-[2px] border-gray-800 hover:border-transparent focus-within:border-transparent"
                   placeholder="Address Line 1"
                   required
@@ -166,7 +170,7 @@
                 <input
                   type="text"
                   bind:value={userData.address.line2}
-                  class="block w-full pl-12 pr-4 py-3 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
+                  class="block w-full pl-12 pr-4 py-2.5 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
                           border-[2px] border-gray-800 hover:border-transparent focus-within:border-transparent"
                   placeholder="Address Line 2"
                   required
@@ -181,7 +185,7 @@
                     <input
                       type="text"
                       bind:value={userData.address.city}
-                      class="block w-full pl-12 pr-4 py-3 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
+                      class="block w-full pl-12 pr-4 py-2.5 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
                           border-[2px] border-gray-800 hover:border-transparent focus-within:border-transparent"
                       placeholder="City"
                       required
@@ -195,7 +199,7 @@
                     <input
                       type="text"
                       bind:value={userData.address.state}
-                      class="block w-full pl-12 pr-4 py-3 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
+                      class="block w-full pl-12 pr-4 py-2.5 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
                           border-[2px] border-gray-800 hover:border-transparent focus-within:border-transparent"
                       placeholder="State"
                       required
@@ -209,7 +213,7 @@
                     <input
                       type="text"
                       bind:value={userData.address.pincode}
-                      class="block w-full pl-12 pr-4 py-3 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
+                      class="block w-full pl-12 pr-4 py-2.5 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
                           border-[2px] border-gray-800 hover:border-transparent focus-within:border-transparent"
                       placeholder="Pincode"
                       required

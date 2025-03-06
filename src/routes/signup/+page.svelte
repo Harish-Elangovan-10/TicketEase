@@ -21,8 +21,13 @@
 				stopLoading();
 				return;
 			}
-			await signUp(email, password, firstname, lastname);
-			window.location.href = '/userdata';
+			
+			const response = await signUp(email, password, firstname, lastname);
+			if (response.success) {
+				window.location.href = '/userdata';
+			} else {
+				throw new Error(response.message);
+			}
 		} catch (e) {
 			stopLoading();
 			error = "Failed to create account. Please try again.";
@@ -33,8 +38,13 @@
 		try {
 			startLoading();
 			error = '';
-			await signInWithGoogle();
-			window.location.href = '/userdata';
+			const response = await signInWithGoogle();
+			
+			if (response.success) {
+				window.location.href = '/userdata';
+			} else {
+				throw new Error(response.message);
+			}
 		} catch (e) {
 			stopLoading();
 			error = "Failed to sign in with Google."

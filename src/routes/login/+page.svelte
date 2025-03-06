@@ -13,8 +13,13 @@
 		try {
 			startLoading();
 			error = '';
-			await signIn(email, password, rememberMe);
-			window.location.href = '/';
+			const response = await signIn(email, password, rememberMe);
+
+			if (response.success) {
+				window.location.href = '/';
+			} else {
+				throw new Error(response.message);
+			}
 		} catch (e) {
 			stopLoading();
 			error = "Failed to sign in. Please check your credentials.";
@@ -25,8 +30,13 @@
 		try {
 			startLoading();
 			error = '';
-			await signInWithGoogle();
-			window.location.href = '/';
+			const response = await signInWithGoogle();
+
+			if (response.success) {
+				window.location.href = '/';
+			} else {
+				throw new Error(response.message);
+			}
 		} catch (e) {
 			stopLoading();
 			error = "Failed to sign in with Google."

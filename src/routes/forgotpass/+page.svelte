@@ -19,10 +19,16 @@
             startLoading();
             error = '';
             success = '';
-            await resetPassword(email);
-            stopLoading();
-            success = 'Password reset email sent. Please check your inbox and reset your password to Sign In.';
-            email = '';
+            const response = await resetPassword(email);
+            
+            if (response.success) {
+                stopLoading();
+                success = 'Password reset email sent. Please check your inbox and reset your password to Sign In.';
+                email = '';
+            } else {
+                stopLoading();
+                throw new Error(response.message);
+            }
         } catch (e) {
             stopLoading();
             error = 'Failed to send password reset email. Please check your email address.';
