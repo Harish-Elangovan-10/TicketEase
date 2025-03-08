@@ -1,7 +1,7 @@
 <script lang="ts">
     import { user } from "$lib/auth";
     import { stopLoading } from "$lib/pageLoading";
-    import { handleMuseums, handleSignIn, handleSignUp, handleSignOut, handleAboutUs, handleMuseumView } from "$lib/handleRouting";
+    import { handleMuseums, handleSignIn, handleSignUp, handleAboutUs, handleMuseumView, handleDashboard } from "$lib/handleRouting";
     import { Building2, Globe, Users, MapPin } from "lucide-svelte";
     import { onDestroy, onMount } from "svelte";
     import { fetchMuseums, museums, type Museum } from "$lib/accessData";
@@ -22,8 +22,7 @@
         if(unsubscribe) unsubscribe();
     });
 
-    // const featuredMuseums = [13, 20, 35, 22, 11, 0, 28, 6];
-    const featuredMuseums = [4, 2, 0, 1, 3];
+    const featuredMuseums = [35, 32, 22, 21, 26, 19, 18, 34];
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black text-gray-400">
@@ -50,15 +49,17 @@
                 </button>
                 
                 {#if $user}
-                    <button class="hover:text-white/90 transition-colors duration-200">
+                    <button 
+                        onclick={handleDashboard}
+                        class="hover:text-white/90 transition-colors duration-200"
+                    >
                         Dashboard
                     </button>
                     <div class="flex items-center space-x-6">
                         <p class="bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent font-semibold transition-all duration-200">
                             Hello, {$user.firstName}
                         </p>
-                        <button 
-                            onclick={handleSignOut}
+                        <button
                             class="h-10 w-10 bg-gradient-to-br from-lime-500 to-emerald-500 rounded-full flex justify-center items-center text-black font-semibold"
                         >
                             {$user.firstName[0]}{$user.lastName[0]}
@@ -174,5 +175,5 @@
 </div>
 
 <svelte:head>
-    <title>Home Page</title>
+    <title>MuseumPass</title>
 </svelte:head>
