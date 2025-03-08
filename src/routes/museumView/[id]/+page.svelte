@@ -24,10 +24,10 @@
     });
   
     const similarMuseums = museum ? [
-        (museum.id + 1) % 5, // (museum.id + 8) % 36,
-        (museum.id + 2) % 5, // (museum.id + 16) % 36,
-        (museum.id + 3) % 5, // (museum.id + 24) % 36,
-        (museum.id + 4) % 5, // (museum.id + 32) % 36,
+        (museum.id + 8) % 36,
+        (museum.id + 16) % 36,
+        (museum.id + 24) % 36,
+        (museum.id + 32) % 36,
     ] : [];
 
     const tickets = [
