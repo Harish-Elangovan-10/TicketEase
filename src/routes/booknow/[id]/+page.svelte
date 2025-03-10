@@ -23,6 +23,10 @@
 	} from "lucide-svelte";
     import type { UserProfile } from "$lib/types";
     import { user } from "$lib/auth";
+    import type { Museum } from "$lib/accessData";
+
+	export let data: { museum: Museum | null };
+    let museum = data.museum;
 
 	let userData: UserProfile = {
 		uid: '',
@@ -133,7 +137,7 @@
 	const tickets = [
 		{
 			type: "Standard",
-			price: 200,
+			price: museum?.price,
 			description: 'Experience our essential museum offerings',
 			benefits: [
 				'General museum access', 
@@ -144,7 +148,7 @@
 		},
 		{
 			type: "Premium",
-			price: 500,
+			price: (museum?.price ?? 0) + 100,
 			description: 'Elevate your experience with exclusive benefits',
 			benefits: [
 				'All Standard benifits',
@@ -155,7 +159,7 @@
 		},
 		{
 			type: "Elite",
-			price: 1000,
+			price: (museum?.price ?? 0) + 300,
 			description: 'Experience luxury with exclusive VIP perks',
 			benefits: [
 				'All Premium benefits',
@@ -191,11 +195,11 @@
 	const cards = [
 		{
 			type: 'Credit Card',
-			image: './src/assets/mastercard.jpg',
+			image: '../src/assets/mastercard.jpg',
 		},
 		{
 			type: 'Debit Card',
-			image: './src/assets/visa.jpg',
+			image: '../src/assets/visa.jpg',
 		},
 	];
 	
@@ -304,7 +308,7 @@
 							<input
 							  type="text"
 							  bind:value={userData.address.line1}
-							  class="block w-full pl-12 pr-4 py-3 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
+							  class="block w-full pl-12 pr-4 py-2.5 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
 								  	border-[2px] border-gray-800 hover:border-transparent focus-within:border-transparent"
 							  placeholder="Address Line 1"
 							  required
@@ -318,7 +322,7 @@
 							<input
 							  type="text"
 							  bind:value={userData.address.line2}
-							  class="block w-full pl-12 pr-4 py-3 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
+							  class="block w-full pl-12 pr-4 py-2.5 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
 								  	border-[2px] border-gray-800 hover:border-transparent focus-within:border-transparent"
 							  placeholder="Address Line 2"
 							  required
@@ -333,7 +337,7 @@
 								<input
 								  type="text"
 								  bind:value={userData.address.city}
-								  class="block w-full pl-12 pr-4 py-3 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
+								  class="block w-full pl-12 pr-4 py-2.5 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
 								  	border-[2px] border-gray-800 hover:border-transparent focus-within:border-transparent"
 								  placeholder="City"
 								  required
@@ -347,7 +351,7 @@
 								<input
 								  type="text"
 								  bind:value={userData.address.state}
-								  class="block w-full pl-12 pr-4 py-3 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
+								  class="block w-full pl-12 pr-4 py-2.5 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
 								  	border-[2px] border-gray-800 hover:border-transparent focus-within:border-transparent"
 								  placeholder="State"
 								  required
@@ -361,7 +365,7 @@
 								<input
 								  type="text"
 								  bind:value={userData.address.pincode}
-								  class="block w-full pl-12 pr-4 py-3 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
+								  class="block w-full pl-12 pr-4 py-2.5 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 placeholder-white/30 transition-all duration-200 focus:outline-none 
 								  	border-[2px] border-gray-800 hover:border-transparent focus-within:border-transparent"
 								  placeholder="Pincode"
 								  required
@@ -728,6 +732,13 @@
 					</div>
 
 					<div class="border-b-[2px] border-gray-800 px-1 pb-5 space-y-4">
+						<div class="flex items-center gap-2.5">
+							<Landmark class="h-5 w-5 text-emerald-400" />
+							<p class="text-white/90">
+								{museum?.title}
+							</p>
+						</div>
+
 						<div class="flex items-center justify-between">
 							<div class="flex items-center gap-2.5">
 								<Ticket class="h-5 w-5 text-emerald-400" />
