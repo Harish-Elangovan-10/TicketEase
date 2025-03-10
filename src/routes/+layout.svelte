@@ -1,5 +1,6 @@
 <script lang="ts">
     import LoadingAnimation from '$lib/loadingAnimation.svelte';
+    import MuseumPassAI from '$lib/chatbot.svelte'
     import { isPageLoading } from '$lib/pageLoading';
 	import '../app.css';
 	let { children } = $props();
@@ -9,6 +10,8 @@
     <div class="fixed inset-0 flex items-center justify-center w-full h-screen bg-black/75 backdrop-blur-sm z-50">
         <LoadingAnimation />
     </div>
+{:else}
+    <MuseumPassAI />
 {/if}
 
 {@render children()}
