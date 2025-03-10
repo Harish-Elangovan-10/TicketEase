@@ -1,6 +1,6 @@
 <script lang="ts">
     import { user } from "$lib/auth";
-    import { handleAboutUs, handleBookNow, handleHome, handleMuseums, handleMuseumView, handleSignIn, handleSignOut, handleSignUp } from "$lib/handleRouting";
+    import { handleAboutUs, handleBookNow, handleDashboard, handleHome, handleMuseums, handleMuseumView, handleSignIn, handleSignUp } from "$lib/handleRouting";
     import { stopLoading } from "$lib/pageLoading";
     import { Accessibility, AudioLines, Binoculars, Boxes, Coffee, ContactRound, GalleryVerticalEnd, Image, MapPin, ShoppingBag, Star, SwatchBook, Theater, Wifi } from "lucide-svelte";
     import { onDestroy, onMount } from "svelte";
@@ -101,9 +101,11 @@
             <div class="text-2xl font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
                 MuseumPass
             </div>
-            <div class="flex space-x-8">
-                <button class="hover:text-white/90 transition-colors duration-200"
-                onclick={handleHome}>
+            <div class="flex items-center space-x-8">
+                <button 
+                    onclick={handleHome}
+                    class="hover:text-white/90 transition-colors duration-200"
+                >
                     Home
                 </button>
                 <button 
@@ -120,30 +122,33 @@
                 </button>
                 
                 {#if $user}
-                <button class="hover:text-white/90 transition-colors duration-200">
-                    Dashboard
-                </button>
+                    <button 
+                        onclick={handleDashboard}
+                        class="hover:text-white/90 transition-colors duration-200"
+                    >
+                        Dashboard
+                    </button>
                     <div class="flex items-center space-x-6">
                         <p class="bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent font-semibold transition-all duration-200">
                             Hello, {$user.firstName}
                         </p>
-                        <button 
-                            onclick={handleSignOut}
-                            class="h-10 w-10 bg-gradient-to-br from-lime-500 to-emerald-500 rounded-full flex justify-center items-center text-black font-semibold"
+                        <button
+                            class="h-10 w-10 bg-gradient-to-br from-lime-500 to-emerald-500 rounded-full flex 
+                            justify-center items-center border-[2px] border-lime-500 text-black font-semibold"
                         >
                             {$user.firstName[0]}{$user.lastName[0]}
                         </button>
                     </div>
                 {:else}
                     <button 
-                        onclick={handleSignIn}
+                        onclick={() => handleSignIn(window.location.pathname)}
                         class="px-4 py-2 rounded-lg border-[1.5px] border-gray-400 hover:bg-white hover:text-black 
                         focus:bg-white/75 focus:text-black transition-all duration-200"
                     >
                         Sign In
                     </button>
                     <button 
-                        onclick={handleSignUp}
+                        onclick={() => handleSignUp(window.location.pathname)}
                         class="px-4 py-2 rounded-lg bg-gradient-to-br from-lime-500 to-emerald-500 hover:from-lime-600 hover:to-emerald-600 
                         text-black focus:from-teal-500 focus:to-green-500 transition-all duration-200"
                     >

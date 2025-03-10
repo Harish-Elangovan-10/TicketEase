@@ -3,7 +3,7 @@
     import { onDestroy, onMount } from "svelte";
     import { user } from "$lib/auth";
     import { stopLoading } from "$lib/pageLoading";
-    import { handleHome, handleMuseumView, handleSignIn, handleSignOut, handleSignUp } from "$lib/handleRouting";
+    import { handleAboutUs, handleDashboard, handleHome, handleMuseumView, handleSignIn, handleSignUp } from "$lib/handleRouting";
     import { fetchMuseums, museums, type Museum } from "$lib/accessData";
     import LoadingAnimation from "$lib/loadingAnimation.svelte";
 
@@ -38,43 +38,57 @@
 
 <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black text-gray-400">
     <div class="mx-12 pt-8">
-        <nav class="flex justify-between items-center mb-10">
+        <nav class="flex justify-between items-center">
             <div class="text-2xl font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
                 MuseumPass
             </div>
-            <div class="flex space-x-8">
-                <button class="hover:text-white/90 transition-colors duration-200"
-                onclick={handleHome}>
+            <div class="flex items-center space-x-8">
+                <button 
+                    onclick={handleHome}
+                    class="hover:text-white/90 transition-colors duration-200"
+                >
                     Home
                 </button>
-                <button class="text-white/90 transition-colors duration-200">
+                <button 
+                    class="text-white/90"
+                >
                     Museums
                 </button>
-                <button class="hover:text-white/90 transition-colors duration-200">
+                <button
+                    onclick={handleAboutUs} 
+                    class="hover:text-white/90 transition-colors duration-200"
+                >
                     About Us
                 </button>
                 
                 {#if $user}
-                    <button class="hover:text-white/90 transition-colors duration-200">
+                    <button 
+                        onclick={handleDashboard}
+                        class="hover:text-white/90 transition-colors duration-200"
+                    >
                         Dashboard
                     </button>
-                    <button 
-                        onclick={handleSignOut}
-                        class="px-4 py-2 rounded-lg bg-gradient-to-br from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 
-                        focus:from-red-700 focus:to-red-800 transition-all duration-200 text-black"
-                    >
-                        Sign Out
-                    </button>
+                    <div class="flex items-center space-x-6">
+                        <p class="bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent font-semibold transition-all duration-200">
+                            Hello, {$user.firstName}
+                        </p>
+                        <button
+                            class="h-10 w-10 bg-gradient-to-br from-lime-500 to-emerald-500 rounded-full flex 
+                            justify-center items-center border-[2px] border-lime-500 text-black font-semibold"
+                        >
+                            {$user.firstName[0]}{$user.lastName[0]}
+                        </button>
+                    </div>
                 {:else}
                     <button 
-                        onclick={handleSignIn}
+                        onclick={() => handleSignIn(window.location.pathname)}
                         class="px-4 py-2 rounded-lg border-[1.5px] border-gray-400 hover:bg-white hover:text-black 
                         focus:bg-white/75 focus:text-black transition-all duration-200"
                     >
                         Sign In
                     </button>
                     <button 
-                        onclick={handleSignUp}
+                        onclick={() => handleSignUp(window.location.pathname)}
                         class="px-4 py-2 rounded-lg bg-gradient-to-br from-lime-500 to-emerald-500 hover:from-lime-600 hover:to-emerald-600 
                         text-black focus:from-teal-500 focus:to-green-500 transition-all duration-200"
                     >

@@ -60,21 +60,22 @@
                             Hello, {$user.firstName}
                         </p>
                         <button
-                            class="h-10 w-10 bg-gradient-to-br from-lime-500 to-emerald-500 rounded-full flex justify-center items-center text-black font-semibold"
+                            class="h-10 w-10 bg-gradient-to-br from-lime-500 to-emerald-500 rounded-full flex 
+                            justify-center items-center border-[2px] border-lime-500 text-black font-semibold"
                         >
                             {$user.firstName[0]}{$user.lastName[0]}
                         </button>
                     </div>
                 {:else}
                     <button 
-                        onclick={handleSignIn}
+                        onclick={() => handleSignIn(window.location.pathname)}
                         class="px-4 py-2 rounded-lg border-[1.5px] border-gray-400 hover:bg-white hover:text-black 
                         focus:bg-white/75 focus:text-black transition-all duration-200"
                     >
                         Sign In
                     </button>
                     <button 
-                        onclick={handleSignUp}
+                        onclick={() => handleSignUp(window.location.pathname)}
                         class="px-4 py-2 rounded-lg bg-gradient-to-br from-lime-500 to-emerald-500 hover:from-lime-600 hover:to-emerald-600 
                         text-black focus:from-teal-500 focus:to-green-500 transition-all duration-200"
                     >
