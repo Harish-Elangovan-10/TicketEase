@@ -51,21 +51,25 @@
 	};
 
     const handleSkip = () => {
+        const redirectPath = sessionStorage.getItem('redirectAfterSignup') || '/';
+		sessionStorage.removeItem('redirectAfterSignup');
         try {
             startLoading();
-            window.location.href = "/";
+            window.location.href = redirectPath;
         } catch (error) {
             stopLoading();
-            console.error("Error navigating to Home: ", error);
+            console.error("Error navigating: ", error);
         }
     };
 
     const handleUpdate = async () => {
+        const redirectPath = sessionStorage.getItem('redirectAfterSignup') || '/';
+		sessionStorage.removeItem('redirectAfterSignup');
         try {
             startLoading();
             const response = await updateUserProfile(userData);
             if(response.success) {
-                window.location.href = "/";
+                window.location.href = redirectPath;
             } else {
                 throw new Error(response.message);
             }
