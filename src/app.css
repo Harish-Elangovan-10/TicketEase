@@ -97,3 +97,8 @@ input[type="checkbox"]:checked::after {
   font-size: 0.9rem;
   font-weight: bold;
 }
+
+.custom-shadow {
+  @apply shadow-lg;
+  box-shadow: 0 0 15px rgba(30, 30, 30, 0.9);
+}
