@@ -1,7 +1,8 @@
 import { signOut } from "./auth";
 import { startLoading, stopLoading } from "./pageLoading";
 
-export const handleSignUp = () => {
+export const handleSignUp = (redirect: string) => {
+    sessionStorage.setItem('redirectAfterSignup', redirect);
     try {
         startLoading();
         window.location.href = "/signup";
@@ -11,7 +12,8 @@ export const handleSignUp = () => {
     }
 };
 
-export const handleSignIn = () => {
+export const handleSignIn = (redirect: string) => {
+    sessionStorage.setItem('redirectAfterSignin', redirect);
     try {
         startLoading();
         window.location.href = "/login";
