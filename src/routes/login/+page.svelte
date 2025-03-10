@@ -10,13 +10,15 @@
 	let error = $state('');
 
 	const handleSignIn = async () => {
+		const redirectPath = sessionStorage.getItem('redirectAfterSignin') || '/';
+		sessionStorage.removeItem('redirectAfterSignin');
 		try {
 			startLoading();
 			error = '';
 			const response = await signIn(email, password, rememberMe);
 
 			if (response.success) {
-				window.location.href = '/';
+				window.location.href = redirectPath;
 			} else {
 				throw new Error(response.message);
 			}
@@ -27,13 +29,15 @@
 	};
 
 	const handleGoogleSignIn = async () => {
+		const redirectPath = sessionStorage.getItem('redirectAfterSignin') || '/';
+		sessionStorage.removeItem('redirectAfterSignin');
 		try {
 			startLoading();
 			error = '';
 			const response = await signInWithGoogle();
 
 			if (response.success) {
-				window.location.href = '/';
+				window.location.href = redirectPath;
 			} else {
 				throw new Error(response.message);
 			}
