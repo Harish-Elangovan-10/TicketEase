@@ -5,6 +5,8 @@
     import type { UserProfile } from "$lib/types";
     import { Building, Building2, CalendarDays, CircleUserRound, Clock, Eye, EyeClosed, History, Landmark, Lock, LogOut, Mail, MapPin, Phone, Save, Settings, Ticket } from "lucide-svelte";
     import { onMount } from "svelte";
+    import MuseumTicket from "$lib/museumTicket.svelte";
+    import { showTicket, toggleTicket } from "$lib/handleRouting";
 
     onMount(() => {
         stopLoading();
@@ -51,7 +53,7 @@
 		userData.mobile = value;
 	};
     
-    let activeTab = 2;
+    let activeTab = 0;
     
     const setActiveTab = (tab: number) => {
         activeTab = tab;
@@ -95,6 +97,11 @@
 		showNew = !showNew;
 	};
 </script>
+
+{#if $showTicket}
+    <MuseumTicket />
+{/if}
+
 <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black text-gray-400">
     <div class="mx-12 pt-8">
         <nav class="flex justify-between items-center">
@@ -143,7 +150,8 @@
             <div class="col-span-1 h-fit bg-gradient-to-br from-gray-900 to-black pt-10 px-6 rounded-xl border-[2px] border-gray-800 flex flex-col items-start">
                 <div class="w-full flex flex-col items-center mb-8">
                     <div 
-                        class="h-20 w-20 bg-gradient-to-br from-lime-500 to-emerald-500 rounded-full flex justify-center items-center text-2xl text-black font-semibold"
+                        class="h-20 w-20 bg-gradient-to-br from-lime-500 to-emerald-500 rounded-full flex justify-center items-center 
+                        border-[2px] border-lime-500 text-2xl text-black font-semibold"
                         >
                         {$user?.firstName[0]}{$user?.lastName[0]}
                     </div>
@@ -238,14 +246,15 @@
                                 </h1>
                                 <div class="flex items-center gap-5">
                                     <button 
-                                        class="self-center w-fit px-3 py-1.5 rounded-lg border-[1.5px] border-gray-400 hover:border-red-400 hover:text-red-400 
-                                        focus:border-red-500 focus:text-red-500 transition-all duration-200 text-sm"
+                                        class="self-center w-fit px-3 py-1.5 rounded-lg border-[1.5px] border-gray-400 hover:border-red-500 hover:text-red-500 
+                                        focus:border-red-600 focus:text-red-600 transition-all duration-200 text-sm"
                                     >
                                         Cancel Booking
                                     </button>
                                     <button 
                                         class="px-3 py-1.5 rounded-lg bg-gradient-to-br from-lime-500 to-emerald-500 hover:from-lime-600 hover:to-emerald-600
                                         text-black focus:from-teal-500 focus:to-green-500 transition-all duration-200 text-sm flex items-center gap-2"
+                                        onclick={toggleTicket}
                                     >
                                         <Ticket class="h-5 w-5" strokeWidth={1.5} />
                                         <span>View Ticket</span>
