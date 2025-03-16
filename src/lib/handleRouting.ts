@@ -1,3 +1,4 @@
+import { writable } from "svelte/store";
 import { signOut } from "./auth";
 import { startLoading, stopLoading } from "./pageLoading";
 
@@ -91,4 +92,14 @@ export const handleDashboard = () => {
         stopLoading();
         console.error("Failed to navigate to Dashboard: ", error);
     }
+};
+
+export const showTicket = writable(false);
+
+export const toggleTicket = () => {
+    showTicket.set(true);
+};
+
+export const closeTicket = () => {
+    showTicket.set(false);
 };
