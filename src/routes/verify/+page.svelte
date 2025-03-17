@@ -102,17 +102,6 @@
             >
                 Verify Code
             </button>
-
-            <div class="mt-6 text-center">
-                <p>
-                    Didn't receive the code?
-                    <button 
-                        class="pl-1 bg-gradient-to-r from-lime-400 to-emerald-400 bg-clip-text text-transparent 
-                        hover:from-lime-600 hover:to-emerald-600 transition-all duration-300">
-                        Resend
-                    </button>
-                </p>
-            </div>
         </div>
     </div>
 </div>
