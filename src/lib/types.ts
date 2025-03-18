@@ -12,4 +12,19 @@ export interface UserProfile {
         state: string;
         pincode: string;
     },
+    tickets: MuseumTicket[] | [];
+};
+
+
+export interface MuseumTicket {
+    id: string;
+    name: string;
+    type: string;
+    date: string;
+    time: string;
+    adults: number;
+    kids: number;
+    guide: boolean;
+    audio: boolean;
+    price: number;
 };
