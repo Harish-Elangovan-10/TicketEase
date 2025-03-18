@@ -1,12 +1,18 @@
 <script lang="ts">
-    import { sendOTP, verifyOTP } from "$lib";
+    import { sendConfirmation, sendOTP, verifyOTP } from "$lib";
     import { user } from "$lib/auth";
     import toast, { Toaster } from "svelte-french-toast";
     import { onMount } from "svelte";
     import { startLoading, stopLoading } from "$lib/pageLoading";
+    import { handleSuccessfulBooking } from "$lib/ticketing";
+    import type { MuseumTicket } from "$lib/types";
 
     let otpValues: string[] = Array(6).fill('');
     let inputRefs: HTMLInputElement[] = [];
+    let cooldown = 0;
+    let resendDisabled = false;
+    let timer: any = null;
+
     $:email = $user?.email ?? '';
     $:name = $user?.firstName ?? 'User';
 
@@ -61,15 +67,34 @@
     };
 
     const handleSendOTP = async () => {
+        if (resendDisabled) return;
+
         try {
             startLoading();
             await sendOTP(email, name);
             console.log("OTP sent successfully!");
-            stopLoading();
+            startCooldown();
         } catch (err) {
             stopLoading();
             console.error("Failed to send OTP: ", err);
+        } finally {
+            stopLoading();
         }
+    };
+
+    const startCooldown = () => {
+        resendDisabled = true;
+        cooldown = 30;
+        
+        if (timer) clearInterval(timer);
+        
+        timer = setInterval(() => {
+            cooldown--;
+            if (cooldown <= 0) {
+                clearInterval(timer!);
+                resendDisabled = false;
+            }
+        }, 1000);
     };
 
     const handleVerifyOTP = async () => {
@@ -77,7 +102,7 @@
         if(otp.length !== 6) {
             toast.error('Please enter all 6 digits', {
                 duration: 5000,
-                style: 'border-radius: 10px; background: #222; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
+                style: 'border-radius: 10px; background: #2225; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
             });
             return;
         }
@@ -87,9 +112,35 @@
             if(response.success) {
                 toast.success(response.message, {
                     duration: 5000,
-                    style: 'border-radius: 10px; background: #222; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
+                    style: 'border-radius: 10px; background: #2225; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
                 });
-                stopLoading();
+                const uid = $user?.uid ?? '';
+                const savedTicket = localStorage.getItem('museumTicket');
+                
+                if (!savedTicket) {
+                    throw new Error('No ticket found in local storage. Booking failed.');
+                }
+
+                const bookedTicket: MuseumTicket = JSON.parse(savedTicket);
+                const title = bookedTicket.name;
+                const price = bookedTicket.price.toString();
+                const dateTime = formatDate(bookedTicket.date) + " - " + bookedTicket.time;
+                const visitors = `${bookedTicket.adults} ${bookedTicket.adults > 1 ? 'Adults' : 'Adult'} ${bookedTicket.kids !== 0 ? ', ' + bookedTicket.kids : ''} ${bookedTicket.kids > 1 ? 'Kids' : bookedTicket.kids === 1 ? 'Kid' : ''}`;
+                let packages: string;
+
+                if (bookedTicket.guide && bookedTicket.audio) {
+                    packages = "Guided Tour + Audio Guide";
+                } else if (bookedTicket.guide && !bookedTicket.audio) {
+                    packages = "Guided Tour";
+                } else if (!bookedTicket.guide && bookedTicket.audio) {
+                    packages = "Audio Guide";
+                } else {
+                    packages = "None";
+                }
+
+                sendConfirmation(email, name, title, dateTime, visitors, packages, price);
+                handleSuccessfulBooking(uid);
+                window.location.replace('/dashboard');
             } else {
                 stopLoading();
                 throw new Error("Invalid OTP");
@@ -98,15 +149,20 @@
             stopLoading();
             toast.error("Invalid OTP. Please try again", {
                 duration: 5000,
-                style: 'border-radius: 10px; background: #222; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
+                style: 'border-radius: 10px; background: #2225; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
             });
         }
     };
 
     onMount(() => {
         stopLoading();
-        // handleSendOTP();
+        startCooldown();
     });
+
+    const formatDate = (date: string) => {
+        const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+        return new Date(date).toLocaleDateString('en-US', options);
+    };
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black text-gray-400 flex items-center justify-center">
@@ -153,8 +209,9 @@
                     class="bg-gradient-to-r from-lime-400 to-emerald-400 hover:from-lime-600 hover:to-emerald-600 
                     bg-clip-text text-transparent"
                     onclick={handleSendOTP}
+                    disabled={resendDisabled}
                 >
-                    Resend
+                    {resendDisabled ? `${cooldown}s` : "Resend"}
                 </button>
             </p>
         </div>
