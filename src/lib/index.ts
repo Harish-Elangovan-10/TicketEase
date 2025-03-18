@@ -1,6 +1,6 @@
 import toast from "svelte-french-toast";
 import { db } from "../firebase";
-import { collection, setDoc, doc, getDoc, deleteDoc } from "firebase/firestore"; 
+import { setDoc, doc, getDoc, deleteDoc } from "firebase/firestore"; 
 
 export const sendOTP = async (email: string, name: string) => {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
@@ -11,6 +11,35 @@ export const sendOTP = async (email: string, name: string) => {
     }, { merge: true });
 
     const response = await fetch("/api/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, otp, name }),
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+        toast.success('OTP sent successfully!', {
+            duration: 5000,
+            style: 'border-radius: 10px; background: #222; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
+        });
+    } else {
+        toast.error('Failed to send OTP', {
+            duration: 5000,
+            style: 'border-radius: 10px; background: #222; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
+        });
+    }
+};
+
+export const sendCancelOTP = async (email: string, name: string) => {
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    
+    await setDoc(doc(db, "otps", email), {
+        otp,
+        createdAt: Date.now(),
+    }, { merge: true });
+
+    const response = await fetch("/api/send-cancel-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp, name }),
@@ -62,4 +91,36 @@ export const verifyOTP = async (email: string, otp: string) => {
     }
 
     throw new Error("Invalid OTP");
+};
+
+export const sendConfirmation = async (email: string, name: string, title: string, dateTime: string, visitors: string, packages: string, price: string) => {
+    const response = await fetch("/api/send-confirmation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, name, title, dateTime, visitors, packages, price }),
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+        console.log("Confirmation mail sent successfully!");
+    } else {
+        console.error("Error sending confirmation mail");
+    }
+};
+
+export const sendCancelConfirmation = async (email: string, name: string, id: string, refund: string) => {
+    const response = await fetch("/api/send-cancel-confirm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, name, id, refund }),
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+        console.log("Cancel Confirmation mail sent successfully!");
+    } else {
+        console.error("Error sending cancel confirmation mail");
+    }
 };
