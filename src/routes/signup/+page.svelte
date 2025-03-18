@@ -178,7 +178,7 @@
 					<button
 						type="submit"
 						class="mt-1 w-full py-3 px-4 rounded-xl bg-gradient-to-br from-lime-500 to-emerald-500 hover:from-lime-600 hover:to-emerald-600
-						font-medium focus:outline-none focus:from-teal-500 focus:to-green-500 transition-all duration-200"
+						font-medium focus:outline-none focus:from-teal-500 focus:to-green-500 transition-all duration-200 text-black"
 					>
 						Create Account
 					</button>
