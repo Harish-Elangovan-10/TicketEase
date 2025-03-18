@@ -1,6 +1,7 @@
 import { writable } from "svelte/store";
 import { signOut } from "./auth";
 import { startLoading, stopLoading } from "./pageLoading";
+import type { MuseumTicket } from "./types";
 
 export const handleSignUp = (redirect: string) => {
     sessionStorage.setItem('redirectAfterSignup', redirect);
@@ -96,10 +97,12 @@ export const handleDashboard = () => {
 
 export const showTicket = writable(false);
 
-export const toggleTicket = () => {
+export const toggleTicket = (ticket: MuseumTicket) => {
+    localStorage.setItem('viewTicket', JSON.stringify(ticket));
     showTicket.set(true);
 };
 
 export const closeTicket = () => {
+    localStorage.removeItem('viewTicket');
     showTicket.set(false);
 };
