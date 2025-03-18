@@ -12,12 +12,12 @@
     import { startLoading, stopLoading } from "$lib/pageLoading";
     import { updateUserProfile, user } from "$lib/auth";
     import { onMount } from "svelte";
+    import toast, { Toaster } from "svelte-french-toast";
 
     onMount(() => {
         stopLoading();
     });
 
-    
     let userData: UserProfile = {
         uid: '',
         displayName: '',
@@ -32,6 +32,7 @@
             state: '',
             pincode: '',
         },
+        tickets: [],
     };
 
     $: {
@@ -69,7 +70,11 @@
             startLoading();
             const response = await updateUserProfile(userData);
             if(response.success) {
-                window.location.href = redirectPath;
+                window.location.href = redirectPath;   
+                toast.success("Profile Updated Successfully!", {
+                    duration: 5000,
+                    style: 'border-radius: 10px; background: #2225; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
+                });
             } else {
                 throw new Error(response.message);
             }
@@ -81,6 +86,7 @@
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black flex flex-col items-center text-gray-400">
+    <Toaster />
     <div class="flex flex-col items-center mt-20 mb-12">
         <h1 class="w-fit text-4xl font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
             Update Your Profile
