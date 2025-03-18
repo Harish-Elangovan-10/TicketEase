@@ -38,6 +38,7 @@ auth.onAuthStateChanged(async (firebaseUser) => {
                 lastName: firebaseUser.displayName?.split(" ").slice(1).join(" ") || "",
                 mobile: "",
                 address: { line1: "", line2: "", city: "", state: "", pincode: "" },
+                tickets: [],
             };
             await setDoc(userRef, userData);
         }
@@ -66,6 +67,7 @@ export const signUp = async (email: string, password: string, firstname: string,
             lastName: lastname,
             mobile: "",
             address: { line1: "", line2: "", city: "", state: "", pincode: "" },
+            tickets: [],
         };
         await setDoc(userRef, userProfile);
         user.set(userProfile);
@@ -97,6 +99,7 @@ export const signIn = async (email: string, password: string, rememberMe: boolea
                 lastName: loggedInUser.displayName?.split(" ").slice(1).join(" ") || "",
                 mobile: "",
                 address: { line1: "", line2: "", city: "", state: "", pincode: "" },
+                tickets: [],
             };
 
             await setDoc(userRef, newUserProfile);
@@ -128,6 +131,7 @@ export const signInWithGoogle = async () => {
                 lastName: googleUser.displayName?.split(" ").slice(1).join(" ") || "",
                 mobile: "",
                 address: { line1: "", line2: "", city: "", state: "", pincode: "" },
+                tickets: [],
             };
 
             await setDoc(userRef, userData);
@@ -203,6 +207,7 @@ export const updateUserProfile = async (userProfile: UserProfile) => {
             lastName: userProfile.lastName,
             mobile: userProfile.mobile,
             address: { ...userProfile.address },
+            tickets: userProfile.tickets,
         };
 
         await setDoc(userRef, updatedUserProfile, { merge: true });
