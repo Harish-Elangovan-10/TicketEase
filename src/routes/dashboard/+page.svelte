@@ -2,11 +2,13 @@
     import { changePassword, updateUserProfile, user } from "$lib/auth";
     import { handleAboutUs, handleHome, handleMuseums, handleSignOut } from "$lib/handleRouting";
     import { startLoading, stopLoading } from "$lib/pageLoading";
-    import type { UserProfile } from "$lib/types";
+    import type { MuseumTicket, UserProfile } from "$lib/types";
     import { Building, Building2, CalendarDays, CircleUserRound, Clock, Eye, EyeClosed, History, Landmark, Lock, LogOut, Mail, MapPin, Phone, Save, Settings, Ticket } from "lucide-svelte";
     import { onMount } from "svelte";
-    import MuseumTicket from "$lib/museumTicket.svelte";
+    import DisplayTicket from "$lib/museumTicket.svelte";
     import { showTicket, toggleTicket } from "$lib/handleRouting";
+    import toast, { Toaster } from "svelte-french-toast";
+    import { sendCancelOTP } from "$lib";
 
     onMount(() => {
         stopLoading();
@@ -26,10 +28,25 @@
 			state: '',
 			pincode: ''
 		},
+        tickets: [],
 	};
 
     let currentPass = '';
     let newPass = '';
+
+    let pastTickets: MuseumTicket[] = [];
+    let upcommingTickets: MuseumTicket[] = [];
+    const currentDate = new Date();
+
+    $: upcommingTickets = userData.tickets.filter(ticket => {
+        const ticketDateTime = new Date(`${ticket.date} ${ticket.time}`);
+        return ticketDateTime > currentDate;
+    });
+
+    $: pastTickets = userData.tickets.filter(ticket => {
+        const ticketDateTime = new Date(`${ticket.date} ${ticket.time}`);
+        return ticketDateTime <= currentDate;
+    });
 	
 	$: {
 		userData.uid = $user?.uid ?? '';
@@ -43,6 +60,7 @@
 		userData.address.city = $user?.address.city ?? '';
 		userData.address.state = $user?.address.state ?? '';
 		userData.address.pincode = $user?.address.pincode ?? '';
+        userData.tickets = $user?.tickets ?? [];
 	}
 
     function formatMobile(event: Event) {
@@ -61,11 +79,17 @@
 
     const handleUpdate = () => {
         try {
-            startLoading();
             updateUserProfile(userData);
-            location.reload();
+            toast.success("Profile Updated Successfully!", {
+                duration: 5000,
+                style: 'border-radius: 10px; background: #2225; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
+            });
         } catch (error) {
             stopLoading();
+            toast.error("Error Updating Your Profile!", {
+                duration: 5000,
+                style: 'border-radius: 10px; background: #2225; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
+            });
             console.error("Error updating your profile: ", error);
         }
     };
@@ -76,10 +100,16 @@
             const response = await changePassword(currentPass, newPass);
             if(response.success) {
                 stopLoading();
-                alert(response.message);
+                toast.success(response.message, {
+                    duration: 5000,
+                    style: 'border-radius: 10px; background: #2225; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
+                });
             } else {
                 stopLoading();
-                alert(response.message);
+                toast.error(response.message, {
+                    duration: 5000,
+                    style: 'border-radius: 10px; background: #2225; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
+                });
                 throw new Error(response.message);
             }
         } catch (e) {
@@ -96,13 +126,34 @@
 	const toggleNew = () => {
 		showNew = !showNew;
 	};
+
+    const formatDate = (date: string) => {
+        const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+        return new Date(date).toLocaleDateString('en-US', options);
+    };
+
+    const handleSendOTP = async (ticket: MuseumTicket) => {
+		try {
+            startLoading();
+			if (userData.email && userData.firstName) {
+                localStorage.setItem('cancelTicket', JSON.stringify(ticket));
+				await sendCancelOTP(userData.email, userData.firstName);
+                window.location.replace('/cancel');
+				console.log("OTP sent successfully!");
+			}
+		} catch (err) {
+            stopLoading();
+			console.error("Failed to send OTP: ", err);
+		}
+	};
 </script>
 
 {#if $showTicket}
-    <MuseumTicket />
+    <DisplayTicket />
 {/if}
 
 <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black text-gray-400">
+    <Toaster />
     <div class="mx-12 pt-8">
         <nav class="flex justify-between items-center">
             <div class="text-2xl font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
@@ -203,105 +254,130 @@
             
             {#if activeTab === 0}
                 <div class="col-span-3 bg-gradient-to-br from-gray-900 to-black p-10 rounded-xl border-[2px] border-gray-800">
-                    <div class="w-fit text-3xl font-bold mb-7 bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
+                    <div class="w-fit h-10 text-3xl font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
                         Upcomming Bookings
                     </div>
 
-                    <div class="flex flex-col items-center">
-                        <div class="w-full bg-gradient-to-br from-gray-900 to-gray-950 p-5 rounded-lg border-[2px] border-gray-800">
-                            <div class="flex items-center justify-between mb-3">
-                                <h1 class="text-white/90 text-2xl font-bold">
-                                    National Museum
-                                </h1>
-                                <p class="text-gray-400 text-base">
-                                <div class="bg-gradient-to-br from-purple-500/25 to-indigo-500/25 rounded-lg px-3 py-0.5">
-                                    <div class="bg-gradient-to-br from-purple-400 to-indigo-600 bg-clip-text text-transparent">
-                                        Premium
+                    {#if upcommingTickets.length === 0}
+                        <p class="w-full h-full flex items-center justify-center text-lg text-gray-500">
+                            Please Book Tickets to see Upcomming Tickets.
+                        </p>
+                    {:else}
+                        <div class="mt-7 flex flex-col items-center gap-5">
+                            {#each upcommingTickets as ticket }                            
+                                <div class="w-full bg-gradient-to-br from-gray-900 to-gray-950 p-5 rounded-lg border-[2px] border-gray-800">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h1 class="text-white/90 text-xl font-bold">
+                                            {ticket.name}
+                                        </h1>
+                                        <p class="text-gray-400 text-base">
+                                        <div 
+                                            class="bg-gradient-to-br rounded-lg px-3 py-0.5 {(ticket.type === 'Standard') ? "from-cyan-500/25 to-blue-500/25" 
+                                            : (ticket.type === 'Premium') ? "from-purple-500/25 to-indigo-500/25" : "from-yellow-500/25 to-amber-500/25"}"
+                                        >
+                                            <div 
+                                                class="bg-gradient-to-br bg-clip-text text-transparent {(ticket.type === 'Standard') ? "from-cyan-400 to-blue-600" 
+                                            : (ticket.type === 'Premium') ? "from-purple-400 to-indigo-600" : "from-yellow-400 to-amber-600"}"
+                                            >
+                                                {ticket.type}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <CalendarDays class="h-5 w-5 text-lime-500" />
+                                        <span class="text-md mr-3">
+                                            {formatDate(ticket.date)}
+                                        </span>
+                                        <Clock class="h-5 w-5 text-lime-500" />
+                                        <span class="text-md mr-3">
+                                            {ticket.time}
+                                        </span>
+                                        <Ticket class="h-5 w-5 text-lime-500" />
+                                        Booking ID: <span class="text-white/90">
+                                            {ticket.id}
+                                        </span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <h1 class="w-fit bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent text-xl font-bold">
+                                            ₹{ticket.price}
+                                        </h1>
+                                        <div class="flex items-center gap-5">
+                                            <button 
+                                                class="self-center w-fit px-3 py-1.5 rounded-lg border-[1.5px] border-gray-400 hover:border-red-500 hover:text-red-500 
+                                                focus:border-red-600 focus:text-red-600 transition-all duration-200 text-sm"
+                                                onclick={() => handleSendOTP(ticket)}
+                                            >
+                                                Cancel Booking
+                                            </button>
+                                            <button 
+                                                class="px-3 py-1.5 rounded-lg bg-gradient-to-br from-lime-500 to-emerald-500 hover:from-lime-600 hover:to-emerald-600
+                                                text-black focus:from-teal-500 focus:to-green-500 transition-all duration-200 text-sm flex items-center gap-2"
+                                                onclick={() => toggleTicket(ticket)}
+                                            >
+                                                <Ticket class="h-5 w-5" strokeWidth={1.5} />
+                                                <span>View Ticket</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="flex items-center gap-2 mb-3">
-                                <MapPin class="h-5 w-5 text-lime-500" />
-                                <span class="text-md mr-3">
-                                    New Delhi, Delhi
-                                </span>
-                                <CalendarDays class="h-5 w-5 text-lime-500" />
-                                <span class="text-md mr-3">
-                                    March 10, 2025
-                                </span>
-                                <Clock class="h-5 w-5 text-lime-500" />
-                                <span class="text-md">
-                                    10:00 AM
-                                </span>
-                            </div>
-                            <div class="text-gray-400 text-base flex items-center gap-2 mb-3">
-                                <Ticket class="h-5 w-5 text-lime-500" />
-                                Booking ID: <span class="text-white/90">
-                                    TKT-123456
-                                </span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <h1 class="w-fit bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent text-xl font-bold">
-                                    $200
-                                </h1>
-                                <div class="flex items-center gap-5">
-                                    <button 
-                                        class="self-center w-fit px-3 py-1.5 rounded-lg border-[1.5px] border-gray-400 hover:border-red-500 hover:text-red-500 
-                                        focus:border-red-600 focus:text-red-600 transition-all duration-200 text-sm"
-                                    >
-                                        Cancel Booking
-                                    </button>
-                                    <button 
-                                        class="px-3 py-1.5 rounded-lg bg-gradient-to-br from-lime-500 to-emerald-500 hover:from-lime-600 hover:to-emerald-600
-                                        text-black focus:from-teal-500 focus:to-green-500 transition-all duration-200 text-sm flex items-center gap-2"
-                                        onclick={toggleTicket}
-                                    >
-                                        <Ticket class="h-5 w-5" strokeWidth={1.5} />
-                                        <span>View Ticket</span>
-                                    </button>
-                                </div>
-                            </div>
+                            {/each}
                         </div>
-                    </div>
+                    {/if}
                 </div>
             {:else if activeTab === 1}
                 <div class="col-span-3 bg-gradient-to-br from-gray-900 to-black p-10 rounded-xl border-[2px] border-gray-800">
-                    <div class="w-fit text-3xl font-bold mb-7 bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
+                    <div class="w-fit h-10 text-3xl font-bold bg-gradient-to-r from-lime-500 to-emerald-500 bg-clip-text text-transparent">
                         Previous Bookings
                     </div>
 
-                    <div class="flex flex-col items-center">
-                        <div class="w-full bg-gradient-to-br from-gray-900 to-gray-950 p-5 rounded-lg border-[2px] border-gray-800">
-                            <div class="flex items-center justify-between mb-3">
-                                <h1 class="text-white/90 text-2xl font-bold">
-                                    National Museum
-                                </h1>
-                                <p class="text-gray-400 text-base">
-                                <div class="bg-gray-800/85 rounded-lg px-3 py-1">
-                                    <div class="text-gray-400 text-sm">
-                                        Visited
+                    {#if upcommingTickets.length === 0}
+                        <p class="w-full h-full flex items-center justify-center text-lg text-gray-500">
+                            No Previous Bookings Yet.
+                        </p>
+                    {:else}
+                        <div class="mt-7 flex flex-col items-center gap-5">
+                            {#each pastTickets as ticket }
+                                <div class="w-full bg-gradient-to-br from-gray-900 to-gray-950 p-5 rounded-lg border-[2px] border-gray-800">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h1 class="text-white/90 text-xl font-bold">
+                                            {ticket.name}
+                                        </h1>
+                                        <p class="text-gray-400 text-base">
+                                        <div class="bg-gray-800/85 rounded-lg px-3 py-1">
+                                            <div class="text-gray-400 text-sm">
+                                                Visited
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <CalendarDays class="h-5 w-5 text-gray-600" />
+                                        <span class="text-md mr-3">
+                                            {formatDate(ticket.date)}
+                                        </span>
+                                        <Clock class="h-5 w-5 text-gray-600" />
+                                        <span class="text-md mr-3">
+                                            {ticket.time}
+                                        </span>
+                                        <Ticket class="h-5 w-5 text-gray-600" />
+                                        Booking ID: <span class="text-white/90">
+                                            {ticket.id}
+                                        </span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <h1 class="text-xl font-bold text-white/90">
+                                            ₹{ticket.price}
+                                        </h1>
+                                        <button 
+                                            class="self-center w-fit px-3 py-1.5 rounded-lg border-[1.5px] border-gray-400 hover:border-emerald-500 
+                                            hover:text-emerald-500 focus:border-emerald-600 focus:text-emerald-600 transition-all duration-200 text-sm"
+                                        >
+                                            Write a review
+                                        </button>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="flex items-center gap-2 mb-3">
-                                <MapPin class="h-5 w-5 text-gray-600" />
-                                <span class="text-md mr-3">
-                                    New Delhi, Delhi
-                                </span>
-                                <CalendarDays class="h-5 w-5 text-gray-600" />
-                                <span class="text-md mr-3">
-                                    March 10, 2025
-                                </span>
-                                <Clock class="h-5 w-5 text-gray-600" />
-                                <span class="text-md">
-                                    10:00 AM
-                                </span>
-                            </div>
-                            <p class="text-xl font-bold text-white/90">
-                                $200
-                            </p>
+                            {/each}
                         </div>
-                    </div>
+                    {/if}
                 </div>
             {:else if activeTab === 2}
                 <div class="col-span-3 bg-gradient-to-br from-gray-900 to-black p-10 rounded-xl border-[2px] border-gray-800 backdrop-blur-sm">
