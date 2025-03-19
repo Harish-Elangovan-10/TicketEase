@@ -193,7 +193,7 @@
                             Email
                         </h3>
                         <p class="text-sm text-gray-400">
-                            museumpass_support@gmail.com
+                            museumpass.services@gmail.com
                         </p>
                     </div>
                     <div class="flex flex-col items-center space-y-2">
