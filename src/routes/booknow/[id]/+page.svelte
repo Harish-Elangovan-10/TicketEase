@@ -27,6 +27,7 @@
     import { handleBooking } from "$lib/ticketing";
     import { sendOTP } from "$lib";
     import toast, { Toaster } from "svelte-french-toast";
+    import { startLoading, stopLoading } from "$lib/pageLoading";
 
 	export let data: { museum: Museum | null };
     let museum = data.museum;
@@ -220,25 +221,7 @@
 		total = subtotal - discount;
 	};
 
-	const handleSendOTP = async () => {
-		try {
-			if (userData.email && userData.firstName) {
-				await sendOTP(userData.email, userData.firstName);
-				toast.success('OTP sent successfully!', {
-        		    duration: 5000,
-        		    style: 'border-radius: 10px; background: #222; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
-        		});
-			}
-		} catch (err) {
-			console.error("Failed to send OTP: ", err);
-			toast.error('Failed to send OTP', {
-        	    duration: 5000,
-        	    style: 'border-radius: 10px; background: #222; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
-        	});
-		}
-	};
-
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		const bookingID = 'TKT-' + (Math.random() * 0x10000000000000).toString(36).toUpperCase().slice(0, 8);
 
 		let ticket: MuseumTicket = {
@@ -253,10 +236,36 @@
 			audio: audio,
 			price: total,
 		};
-		handleBooking(ticket);
-		handleSendOTP();
+
+		try {
+			startLoading();
+			if (userData.email) {
+				const response = await sendOTP(userData.email, userData.firstName);
+				
+				if (response.success) {
+					toast.success('OTP sent successfully!', {
+        			    duration: 5000,
+        			    style: 'border-radius: 10px; background: #222; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
+        			});
+					handleBooking(ticket);
+				} else {
+					toast.error('Failed to send OTP', {
+						duration: 5000,
+						style: 'border-radius: 10px; background: #222; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
+					});
+					throw new Error(response.message);
+				}
+			}
+		} catch (error) {
+			stopLoading();
+			console.error("Error sending OTP: ", error);
+		}
 	};
 </script>
+
+<svelte:head>
+	<title>Book Your Visit</title>
+</svelte:head>
 
 <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black p-4 text-gray-400">
 	<Toaster />
