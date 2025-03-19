@@ -19,15 +19,9 @@ export const sendOTP = async (email: string, name: string) => {
     const result = await response.json();
 
     if (result.success) {
-        toast.success('OTP sent successfully!', {
-            duration: 5000,
-            style: 'border-radius: 10px; background: #222; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
-        });
+        return { success: true, message: "OTP sent successfully!" };
     } else {
-        toast.error('Failed to send OTP', {
-            duration: 5000,
-            style: 'border-radius: 10px; background: #222; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
-        });
+        return { success: false, message: "Failed to send OTP" };
     }
 };
 
@@ -48,15 +42,9 @@ export const sendCancelOTP = async (email: string, name: string) => {
     const result = await response.json();
 
     if (result.success) {
-        toast.success('OTP sent successfully!', {
-            duration: 5000,
-            style: 'border-radius: 10px; background: #222; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
-        });
+        return { success: true, message: 'OTP sent successfully' };
     } else {
-        toast.error('Failed to send OTP', {
-            duration: 5000,
-            style: 'border-radius: 10px; background: #222; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
-        });
+        return { success: false, message: 'Failed to send OTP' };
     }
 };
 
@@ -88,9 +76,9 @@ export const verifyOTP = async (email: string, otp: string) => {
     if (storedOTP === otp) {
         await deleteDoc(otpRef);
         return { success: true, message: "OTP verified successfully" };
+    } else {
+        return { success: false, message: "Invalid OTP" };
     }
-
-    throw new Error("Invalid OTP");
 };
 
 export const sendConfirmation = async (email: string, name: string, title: string, dateTime: string, visitors: string, packages: string, price: string) => {
@@ -103,9 +91,9 @@ export const sendConfirmation = async (email: string, name: string, title: strin
     const result = await response.json();
 
     if (result.success) {
-        console.log("Confirmation mail sent successfully!");
+        return { success: true, message: "Confirmation mail sent successfully!" };
     } else {
-        console.error("Error sending confirmation mail");
+        return { success: false, message: "Error sending confirmation mail" };
     }
 };
 
@@ -119,8 +107,8 @@ export const sendCancelConfirmation = async (email: string, name: string, id: st
     const result = await response.json();
 
     if (result.success) {
-        console.log("Cancel Confirmation mail sent successfully!");
+        return { success: true, message: "Cancel Confirmation mail sent successfully!" };
     } else {
-        console.error("Error sending cancel confirmation mail");
+        return { success: false, message: "Error sending cancel confirmation mail" };
     }
 };
