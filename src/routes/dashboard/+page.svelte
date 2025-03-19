@@ -1,11 +1,12 @@
 <script lang="ts">
     import { changePassword, updateUserProfile, user } from "$lib/auth";
-    import { handleAboutUs, handleHome, handleMuseums, handleSignOut } from "$lib/handleRouting";
+    import { handleAboutUs, handleHome, handleMuseums, handleSignOut, showReview, toggleReview } from "$lib/handleRouting";
     import { startLoading, stopLoading } from "$lib/pageLoading";
     import type { MuseumTicket, UserProfile } from "$lib/types";
     import { Building, Building2, CalendarDays, CircleUserRound, Clock, Eye, EyeClosed, History, Landmark, Lock, LogOut, Mail, MapPin, Phone, Save, Settings, Ticket } from "lucide-svelte";
     import { onMount } from "svelte";
     import DisplayTicket from "$lib/museumTicket.svelte";
+    import Review from "$lib/review.svelte";
     import { showTicket, toggleTicket } from "$lib/handleRouting";
     import toast, { Toaster } from "svelte-french-toast";
     import { sendCancelOTP } from "$lib";
@@ -162,6 +163,10 @@
 
 {#if $showTicket}
     <DisplayTicket />
+{/if}
+
+{#if $showReview}
+    <Review />
 {/if}
 
 <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black text-gray-400">
@@ -382,6 +387,7 @@
                                         <button 
                                             class="self-center w-fit px-3 py-1.5 rounded-lg border-[1.5px] border-gray-400 hover:border-emerald-500 
                                             hover:text-emerald-500 focus:border-emerald-600 focus:text-emerald-600 transition-all duration-200 text-sm"
+                                            onclick={() => toggleReview(ticket)}
                                         >
                                             Write a review
                                         </button>
