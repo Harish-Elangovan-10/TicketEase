@@ -106,3 +106,15 @@ export const closeTicket = () => {
     localStorage.removeItem('viewTicket');
     showTicket.set(false);
 };
+
+export const showReview = writable(false);
+
+export const toggleReview = (ticket: MuseumTicket) => {
+    localStorage.setItem('reviewTicket', JSON.stringify(ticket));
+    showReview.set(true);
+};
+
+export const closeReview = () => {
+    localStorage.removeItem('reviewTicket');
+    showReview.set(false);
+};
