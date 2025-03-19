@@ -137,9 +137,21 @@
             startLoading();
 			if (userData.email && userData.firstName) {
                 localStorage.setItem('cancelTicket', JSON.stringify(ticket));
-				await sendCancelOTP(userData.email, userData.firstName);
-                window.location.replace('/cancel');
-				console.log("OTP sent successfully!");
+				const response = await sendCancelOTP(userData.email, userData.firstName);
+
+                if (response.success) {
+					toast.success('OTP sent successfully!', {
+        			    duration: 5000,
+        			    style: 'border-radius: 10px; background: #222; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
+        			});
+                    window.location.replace('/cancel');
+				} else {
+					toast.error('Failed to send OTP', {
+						duration: 5000,
+						style: 'border-radius: 10px; background: #222; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
+					});
+					throw new Error(response.message);
+				}
 			}
 		} catch (err) {
             stopLoading();

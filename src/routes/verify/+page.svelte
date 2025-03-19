@@ -71,11 +71,22 @@
 
         try {
             startLoading();
-            await sendOTP(email, name);
-            console.log("OTP sent successfully!");
+            const response = await sendOTP(email, name);
+
+            if (response.success) {
+                toast.success(response.message, {
+                    duration: 5000,
+                    style: 'border-radius: 10px; background: #2225; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
+                });
+            } else {
+                toast.error('Failed to send OTP', {
+                    duration: 5000,
+                    style: 'border-radius: 10px; background: #222; color: #fff; padding-left: 15px; border: 2px solid #333; margin-top: 20px;',
+                });
+                throw new Error(response.message);
+            }
             startCooldown();
         } catch (err) {
-            stopLoading();
             console.error("Failed to send OTP: ", err);
         } finally {
             stopLoading();
@@ -138,12 +149,17 @@
                     packages = "None";
                 }
 
-                sendConfirmation(email, name, title, dateTime, visitors, packages, price);
-                handleSuccessfulBooking(uid);
-                window.location.replace('/dashboard');
+                const mailResponse = await sendConfirmation(email, name, title, dateTime, visitors, packages, price);
+
+                if (mailResponse.success) {
+                    handleSuccessfulBooking(uid);
+                    window.location.replace('/dashboard');
+                } else {
+                    throw new Error(mailResponse.message);
+                }
             } else {
                 stopLoading();
-                throw new Error("Invalid OTP");
+                throw new Error(response.message);
             }
         } catch (err) {
             stopLoading();
