@@ -164,6 +164,10 @@
     });
 </script>
 
+<svelte:head>
+    <title>Verify OTP</title>
+</svelte:head>
+
 <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black text-gray-400 flex items-center justify-center">
     <Toaster />
     <div class="flex flex-col items-center space-y-5">

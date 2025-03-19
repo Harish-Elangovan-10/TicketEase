@@ -85,6 +85,10 @@
     };
 </script>
 
+<svelte:head>
+    <title>Update Profile</title>
+</svelte:head>
+
 <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black flex flex-col items-center text-gray-400">
     <Toaster />
     <div class="flex flex-col items-center mt-20 mb-12">

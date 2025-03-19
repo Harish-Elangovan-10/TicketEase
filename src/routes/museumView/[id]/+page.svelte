@@ -169,7 +169,9 @@
                 </div>
                 <div class="flex items-center justify-start gap-3 mt-5">
                     <Star class="h-5 w-5 text-emerald-500" />
-                    <p class="text-base">{museum?.rating} Star rating</p>
+                    <p class="text-base">
+                        { museum?.rating === 0 ? 'No user ratings' : `${museum?.rating} Star rating` }
+                    </p>
                 </div>
                 <div class="flex items-center justify-start gap-3 mt-5">
                     <SwatchBook class="h-5 w-5 text-emerald-500" />
@@ -309,12 +311,9 @@
                             {museum?.rating} out of 5
                         </p>
                     </div>
-                    <button 
-                        class="px-4 py-2 rounded-lg border-[1.5px] border-emerald-500 hover:border-emerald-300 hover:text-emerald-300 
-                        focus:border-emerald-500 focus:text-emerald-500 text-emerald-500 transition-all duration-200"
-                    >
-                        Write a Review
-                    </button>
+                    {#if !museum?.reviews?.length}
+                        <p class="text-xl">No reviews available</p>
+                    {/if}
                 </div>
                 {#each Array(reviewCount) as _, index}
                     <div class="bg-gradient-to-br from-gray-900 to-black border-[2px] border-gray-800 rounded-lg px-6 py-4 space-y-3">
@@ -422,4 +421,5 @@
 
 <svelte:head>
     <title>{museum?.title}</title>
+    <link rel="icon" href="../src/assets/logo.png" />
 </svelte:head>

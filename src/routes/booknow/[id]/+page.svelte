@@ -265,6 +265,7 @@
 
 <svelte:head>
 	<title>Book Your Visit</title>
+	<link rel="icon" href="../src/assets/logo.png" />
 </svelte:head>
 
 <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black p-4 text-gray-400">

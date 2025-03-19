@@ -36,6 +36,10 @@
     };
 </script>
 
+<svelte:head>
+    <title>Forgot Password</title>
+</svelte:head>
+
 <div class="min-h-screen text-white/75 bg-gradient-to-br from-gray-900 to-black flex items-center justify-center p-4">
 	<div class="flex flex-col items-center justify-stretch space-y-5">
 		<h1 class="h-12 text-4xl font-bold bg-gradient-to-r from-lime-400 to-emerald-400 bg-clip-text text-transparent">
