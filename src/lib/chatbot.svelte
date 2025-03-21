@@ -3,9 +3,14 @@
     import { spring } from "svelte/motion";
     import { fade } from "svelte/transition";
     import { user } from "./auth";
+    import { onMount } from "svelte";
 
     const dimensions = spring({ width: 56, height: 56, radius: 28 });
     let isOpen = false;
+    let isLoading = false;
+
+    // API base URL - adjust this to match your backend
+    const API_URL = "http://10.10.8.120:8000";  // Change this to your actual API URL
 
     $: if (isOpen) {
         setTimeout(() => {
@@ -13,13 +18,20 @@
         }, 200);
     }
     
+    onMount(() => {
+        // Initialize chat with greeting
+        if (chat.length === 0) {
+            chat = [
+                ['AI', `Hello ${$user?.firstName || 'there'}! I'm MuseumPass AI. How can I help you today?`]
+            ];
+        }
+    });
 
     const toggleChatBot = () => {
         isOpen = !isOpen;
 
         if (isOpen) {
             dimensions.set({ width: 400, height: 620, radius: 12 });
-            // scrollToBottom();
         } else {
             dimensions.set({ width: 56, height: 56, radius: 28 });
         }
@@ -34,13 +46,82 @@
         const chatDiv = document.querySelector('.chat-container');
         chatDiv?.scrollTo({ top: chatDiv.scrollHeight, behavior: 'smooth' });
     };
+
+    let chat: [string, string][] = [];
+    let query = '';
+    
+    const fetchChatResponse = async (message: string) => {
+        try {
+            isLoading = true;
+            const response = await fetch(`${API_URL}/chat`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            return data.response;
+        } catch (error) {
+            console.error('Failed to fetch response:', error);
+            return "Sorry, I couldn't connect to the museum database. Please try again later.";
+        } finally {
+            isLoading = false;
+        }
+    };
+
+    const handleSendMessage = async () => {
+        if (!query.trim()) return;
+        
+        // Add user message
+        chat = [...chat, ['User', query]];
+        const userMessage = query;
+        query = '';
+        
+        // Show typing indicator
+        scrollToBottom();
+        
+        // Get AI response
+        const aiResponse = await fetchChatResponse(userMessage);
+        
+        // Add AI response and remove typing indicator
+        chat = [...chat, ['AI', aiResponse]];
+        
+        setTimeout(() => {
+            scrollToBottom();
+        }, 200);
+    };
+
+    const handleKeyPress = (e: KeyboardEvent) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSendMessage();
+        }
+    };
+
+    // Quick suggestions
+    const suggestions = [
+        "Hello, MuseumPass AI",
+        "Museums in Chennai",
+        "What are the top 3 museums?"
+    ];
+
+    const handleSuggestion = (suggestion: string) => {
+        query = suggestion;
+        handleSendMessage();
+    };
 </script>
 
 <div 
     class="fixed bottom-5 right-5 bg-gradient-to-br from-gray-900 to-black custom-shadow z-50 overflow-hidden text-gray-400"
     style="width: {$dimensions.width}px; height: {$dimensions.height}px; border-radius: {$dimensions.radius}px;"
-    onclick={isOpen ? null : toggleChatBot}
-    onkeydown={(e) => e.key === 'Enter' && !isOpen && toggleChatBot()}
+    on:click={isOpen ? null : toggleChatBot}
+    on:keydown={(e) => e.key === 'Enter' && !isOpen && toggleChatBot()}
     role="button"
     tabindex="0"
     aria-label="Toggle Chat"
@@ -65,7 +146,7 @@
                 </div>
                 <button
                     class="text-gray-400 hover:text-white transition-colors duration-200"
-                    onclick={handleClose}
+                    on:click={handleClose}
                     aria-label="Close chat"
                 >
                     <Minimize class="h-5 w-5 text-gray-400 hover:text-white/90" />
@@ -73,44 +154,39 @@
             </div>
 
             <div class="chat-container flex flex-col gap-4 max-w-md overflow-y-auto text-white/90 p-4 h-[calc(100%-100px)]" in:fade={{ duration: 750 }}>
-                <div class="self-start max-w-[275px] w-fit px-4 py-3 rounded-lg bg-gradient-to-br from-lime-500 to-emerald-500 text-black">
-                    Hello {$user?.firstName}! I'm MuseumPass AI. How can I help you today?
-                </div>
-                <div class="self-end max-w-[275px] w-fit px-4 py-3 rounded-lg bg-gray-700/50 text-gray-300">
-                    I'd like to know more about featured museums.
-                </div>
-                <div class="self-start max-w-[275px] w-fit px-4 py-3 rounded-lg bg-gradient-to-br from-lime-500 to-emerald-500 text-black">
-                    We have over 100 museums across 28 states in India. Would you like specific information about any of them?
-                </div>
-                <div class="self-end max-w-[275px] w-fit px-4 py-3 rounded-lg bg-gray-700/50 text-gray-300">
-                    Which museum is near Chennai?
-                </div>
-                <div class="self-start max-w-[275px] w-fit px-4 py-3 rounded-lg bg-gradient-to-br from-lime-500 to-emerald-500 text-black">
-                    Government Museum, present 30km from Chennai is the nearest museum.
-                </div>
-                <button 
-                    class="self-end max-w-[275px] w-fit px-3.5 py-2.5 rounded-lg bg-gray-700/40 border-[2px] border-gray-800 text-gray-400
-                    hover:text-white/90 hover:bg-gray-700/50 transition-all duration-300"
-                >
-                    What is the ticket price there?
-                </button>
-                <button 
-                    class="self-end max-w-[275px] w-fit px-3.5 py-2.5 rounded-lg bg-gray-700/40 border-[2px] border-gray-800 text-gray-400
-                    hover:text-white/90 hover:bg-gray-700/50 transition-all duration-300"
-                >
-                    When is the good time to visit?
-                </button>
-                <button 
-                    class="self-end max-w-[275px] w-fit px-3.5 py-2.5 rounded-lg bg-gray-700/40 border-[2px] border-gray-800 text-gray-400
-                    hover:text-white/90 hover:bg-gray-700/50 transition-all duration-300"
-                >
-                    Book me a visit.
-                </button>
-                <div class="self-start flex gap-1.5 px-4 py-3">
-                    <div class="w-2 h-2 bg-lime-500 rounded-full dot"></div>
-                    <div class="w-2 h-2 bg-emerald-500 rounded-full dot"></div>
-                    <div class="w-2 h-2 bg-lime-500 rounded-full dot"></div>
-                </div>
+                {#each chat as content}
+                    {#if content[0] === 'AI'}
+                        <div class="self-start max-w-[275px] w-fit px-4 py-3 rounded-lg bg-gradient-to-br from-lime-500 to-emerald-500 text-black">
+                            {content[1]}
+                        </div>
+                    {:else}
+                        <div class="self-end max-w-[275px] w-fit px-4 py-3 rounded-lg bg-gray-700/50 text-gray-300">
+                            {content[1]}
+                        </div>
+                    {/if}
+                {/each}
+                
+                {#if suggestions.length > 0 && chat.length <= 1}
+                    <div class="flex flex-col gap-2 mt-2">
+                        {#each suggestions as suggestion}
+                            <button 
+                                class="self-end max-w-[275px] w-fit px-3.5 py-2.5 rounded-lg bg-gray-700/40 border-[2px] border-gray-800 text-gray-400
+                                hover:text-white/90 hover:bg-gray-700/50 transition-all duration-300"
+                                on:click={() => handleSuggestion(suggestion)}
+                            >
+                                {suggestion}
+                            </button>
+                        {/each}
+                    </div>
+                {/if}
+                
+                {#if isLoading}
+                    <div class="self-start flex gap-1.5 px-4 py-3">
+                        <div class="w-2 h-2 bg-lime-500 rounded-full dot"></div>
+                        <div class="w-2 h-2 bg-emerald-500 rounded-full dot"></div>
+                        <div class="w-2 h-2 bg-lime-500 rounded-full dot"></div>
+                    </div>
+                {/if}
             </div>
 
             <div class="px-4 pb-4">
@@ -120,16 +196,20 @@
             <div class="w-full px-4 pb-4 flex gap-4">
                 <div class="relative w-full group input-gradient">
                     <input
-                    type="text"
-                    class="block w-full px-4 py-2.5 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 transition-all duration-200 focus:outline-none 
-                        border-[2px] border-gray-800 hover:border-transparent focus-within:border-transparent"
-                    placeholder="How can I assist you?"
-                    required
+                        type="text"
+                        bind:value={query}
+                        on:keydown={handleKeyPress}
+                        class="block w-full px-4 py-2.5 rounded-lg bg-gray-900/85 hover:bg-gray-800/80 focus:bg-gray-900/90 transition-all duration-200 focus:outline-none 
+                            border-[2px] border-gray-800 hover:border-transparent focus-within:border-transparent"
+                        placeholder="How can I assist you?"
+                        disabled={isLoading}
                     />
                 </div>
                 <button
                     class="px-2.5 py-2.5 rounded-lg bg-gradient-to-br from-lime-500 to-emerald-500 hover:from-lime-600 hover:to-emerald-600 
                     text-black transition-all duration-200"
+                    on:click={handleSendMessage}
+                    disabled={isLoading || !query.trim()}
                 >
                     <ArrowBigUpDash strokeWidth={1.2} class="h-7 w-7 text-black" />
                 </button>
@@ -137,3 +217,27 @@
         </div>
     {/if}
 </div>
+
+<style>
+  /* Add animation for the loading dots */
+  .dot {
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+  .dot:nth-child(2) {
+    animation-delay: 0.5s;
+  }
+  .dot:nth-child(3) {
+    animation-delay: 1s;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.4;
+      transform: scale(0.8);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+</style>
