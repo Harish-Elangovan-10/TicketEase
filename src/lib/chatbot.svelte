@@ -9,8 +9,7 @@
     let isOpen = false;
     let isLoading = false;
 
-    // API base URL - adjust this to match your backend
-    const API_URL = "http://10.10.8.120:8000";  // Change this to your actual API URL
+    const API_URL = "http://10.10.8.120:8000";
 
     $: if (isOpen) {
         setTimeout(() => {
@@ -19,7 +18,6 @@
     }
     
     onMount(() => {
-        // Initialize chat with greeting
         if (chat.length === 0) {
             chat = [
                 ['AI', `Hello ${$user?.firstName || 'there'}! I'm MuseumPass AI. How can I help you today?`]
@@ -77,24 +75,23 @@
 
     const handleSendMessage = async () => {
         if (!query.trim()) return;
+
+        setTimeout(() => {
+            scrollToBottom();
+        }, 100);
         
-        // Add user message
         chat = [...chat, ['User', query]];
         const userMessage = query;
         query = '';
         
-        // Show typing indicator
-        scrollToBottom();
         
-        // Get AI response
         const aiResponse = await fetchChatResponse(userMessage);
         
-        // Add AI response and remove typing indicator
         chat = [...chat, ['AI', aiResponse]];
         
         setTimeout(() => {
             scrollToBottom();
-        }, 200);
+        }, 100);
     };
 
     const handleKeyPress = (e: KeyboardEvent) => {
