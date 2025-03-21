@@ -101,7 +101,6 @@
         }
     };
 
-    // Quick suggestions
     const suggestions = [
         "Hello, MuseumPass AI",
         "Museums in Chennai",
@@ -216,7 +215,6 @@
 </div>
 
 <style>
-  /* Add animation for the loading dots */
   .dot {
     animation: pulse 1.5s infinite ease-in-out;
   }
